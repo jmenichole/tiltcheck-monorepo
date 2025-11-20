@@ -35,6 +35,7 @@ This repository contains the complete documentation for the TiltCheck ecosystem:
 - **[funding-opportunities.md](funding-opportunities.md)** - Comprehensive grants and funding guide
 - **[grants-quick-reference.md](grants-quick-reference.md)** - Quick reference for grants
 - **[funding-opportunities.json](funding-opportunities.json)** - Machine-readable funding database
+- **[grant-application-kit/](grant-application-kit/)** - Complete toolkit for grant applications
 
 ## 🎯 Quick Start
 
@@ -42,7 +43,8 @@ This repository contains the complete documentation for the TiltCheck ecosystem:
 If you're looking for funding opportunities, start here:
 1. Read **[grants-quick-reference.md](grants-quick-reference.md)** for immediate actions
 2. Review **[funding-opportunities.md](funding-opportunities.md)** for detailed information
-3. Track your applications using the provided templates
+3. Use **[grant-application-kit/](grant-application-kit/)** materials to build your applications
+4. Track your applications using the provided templates
 
 ### For Developers
 To understand the TiltCheck ecosystem:
