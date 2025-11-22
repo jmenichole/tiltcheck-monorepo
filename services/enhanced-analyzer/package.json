@@ -5,7 +5,8 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "build": "echo 'skip enhanced-analyzer build during CI (types incomplete)'",
+    "build": "tsc",
+    "build:runtime-check": "BUILD_SKIP_LISTEN=1 tsx src/index.ts",
     "dev": "tsx src/index.ts",
     "start": "node dist/index.js",
     "start:enhanced": "node start.js",

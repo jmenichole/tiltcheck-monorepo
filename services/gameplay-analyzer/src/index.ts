@@ -594,6 +594,12 @@ async function main() {
   adapterRegistry.register(stakeAdapter);
   adapterRegistry.register(rollbitAdapter);
   console.log(`[Analyzer] Registered ${adapterRegistry.list().length} adapters`);
+
+  // Skip network/server startup during build or type-check phases
+  if (process.env.BUILD_SKIP_LISTEN === '1') {
+    console.log('[GameplayAnalyzer] BUILD_SKIP_LISTEN=1 set, skipping network/server startup.');
+    return; // exit early; allows tsc/tsx invocation without binding ports
+  }
   
   const csvArgIndex = process.argv.indexOf('--csv');
   if (csvArgIndex !== -1) {
