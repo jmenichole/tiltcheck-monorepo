@@ -4,21 +4,22 @@ import { addTrustSignal } from './store.js';
 // Simple heuristic mapping from events to trust signals.
 function registerIdentityEventSubscriptions() {
   try {
-    eventRouter.subscribe('tilt.detected', (evt) => {
+    const er: any = eventRouter; // loosen typing for extended event names not yet in shared types
+    er.subscribe('tilt.detected', (evt: any) => {
       const { userId, severityScore = 0.5 } = evt.data || {};
       if (!userId) return;
       // Negative signal proportional to severity
       addTrustSignal(userId, 'tilt', 'tilt_severity', -Math.min(1, severityScore), 0.6);
     }, 'tiltcheck-core');
 
-    eventRouter.subscribe('link.flagged', (evt) => {
+    er.subscribe('link.flagged', (evt: any) => {
       const { url: _url, riskLevel = 'HIGH', userId } = evt.data || {};
       if (!userId) return;
       const val = riskLevel === 'HIGH' ? -0.8 : riskLevel === 'MEDIUM' ? -0.4 : -0.2;
       addTrustSignal(userId, 'link', 'link_risk', val, 0.5);
     }, 'tiltcheck-core');
 
-    eventRouter.subscribe('trust.casino.updated', (evt) => {
+    er.subscribe('trust.casino.updated', (evt: any) => {
       const { sessionId: _sessionId, userId, metrics = {} } = evt.data || {};
       const targetId = userId || evt.data?.userId || metrics?.userId;
       if (!targetId) return;
@@ -31,14 +32,14 @@ function registerIdentityEventSubscriptions() {
     }, 'tiltcheck-core');
 
     // Placeholder tipping event sample
-    eventRouter.subscribe('tip.completed', (evt) => {
+    er.subscribe('tip.completed', (evt: any) => {
       const { senderId } = evt.data || {};
       if (!senderId) return;
       addTrustSignal(senderId, 'tip', 'tip_activity', 0.05, 0.2); // small positive for normal activity
     }, 'tiltcheck-core');
 
     // Gameplay anomaly subscriptions
-    eventRouter.subscribe('fairness.pump.detected', (evt) => {
+    er.subscribe('fairness.pump.detected', (evt: any) => {
       const { userId, severity, confidence } = evt.data || {};
       if (!userId) return; // Can't attribute without userId
       // Negative signal for pump detection (potential manipulation)
@@ -48,7 +49,7 @@ function registerIdentityEventSubscriptions() {
       addTrustSignal(userId, 'gameplay', 'pump_detected', val, 0.5);
     }, 'tiltcheck-core');
 
-    eventRouter.subscribe('fairness.compression.detected', (evt) => {
+    er.subscribe('fairness.compression.detected', (evt: any) => {
       const { userId, severity, confidence } = evt.data || {};
       if (!userId) return;
       // Volatility compression precedes pumps - moderate negative signal
@@ -58,7 +59,7 @@ function registerIdentityEventSubscriptions() {
       addTrustSignal(userId, 'gameplay', 'compression_detected', val, 0.3);
     }, 'tiltcheck-core');
 
-    eventRouter.subscribe('fairness.cluster.detected', (evt) => {
+    er.subscribe('fairness.cluster.detected', (evt: any) => {
       const { userId, severity, confidence } = evt.data || {};
       if (!userId) return;
       // Win clustering anomaly - moderate negative
@@ -69,7 +70,7 @@ function registerIdentityEventSubscriptions() {
     }, 'tiltcheck-core');
 
     // Human review verified events
-    eventRouter.subscribe('trust.human.verified', (evt) => {
+    er.subscribe('trust.human.verified', (evt: any) => {
       const { userId, verified, decision } = evt.data || {};
       if (!userId) return;
       // Human reviewer confirmed the anomaly - stronger negative signal
@@ -78,7 +79,7 @@ function registerIdentityEventSubscriptions() {
       }
     }, 'tiltcheck-core');
 
-    eventRouter.subscribe('trust.false.positive', (evt) => {
+    er.subscribe('trust.false.positive', (evt: any) => {
       const { userId, falsePositive } = evt.data || {};
       if (!userId) return;
       // Human reviewer marked as false positive - restore some trust

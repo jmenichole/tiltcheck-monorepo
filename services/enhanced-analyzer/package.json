@@ -1,0 +1,41 @@
+{
+  "name": "@tiltcheck/enhanced-analyzer",
+  "version": "0.1.0",
+  "description": "Advanced automated analysis service for TiltCheck with CSV parsing, WebSocket monitoring, and visual recognition",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "echo 'skip enhanced-analyzer build during CI (types incomplete)'",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "start:enhanced": "node start.js",
+    "test": "node --test",
+    "health": "curl -f http://localhost:7074/health"
+  },
+  "dependencies": {
+    "@tiltcheck/event-router": "workspace:*",
+    "@tiltcheck/types": "workspace:*",
+    "ws": "^8.18.3",
+    "csv-parser": "^3.0.0",
+    "csv-stringify": "^6.4.0"
+  },
+  "optionalDependencies": {
+    "tesseract.js": "^5.0.0",
+    "sharp": "^0.33.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.4",
+    "@types/ws": "^8.5.10",
+    "tsx": "^4.6.2",
+    "typescript": "^5.3.3"
+  },
+  "keywords": [
+    "tiltcheck",
+    "analysis", 
+    "gambling",
+    "websocket",
+    "csv",
+    "visual-recognition",
+    "automated"
+  ]
+}

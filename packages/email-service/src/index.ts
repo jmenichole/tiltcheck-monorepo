@@ -311,12 +311,4 @@ export type {
   PendingTipsProps,
 };
 
-// Export all functions
-export {
-  isEmailEnabled,
-  sendTipReceipt,
-  sendSecurityAlert,
-  sendPendingTipsReminder,
-  sendTestEmail,
-  sendOTPEmail
-};
+// (Functions are already exported where declared; redundant re-export removed to avoid TS2323/TS2484 conflicts.)

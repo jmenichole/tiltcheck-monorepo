@@ -381,7 +381,8 @@ async function runCollection() {
       
       // Emit trust event with grading results
       if (snapshot.grading) {
-        await eventRouter.publish('trust.casino.updated', 'ai-collector', {
+        // loosen type for module id until types include 'ai-collector'
+        await (eventRouter as any).publish('trust.casino.updated', 'ai-collector', {
           casinoId: casino.id,
           trustScore: snapshot.grading.compositeScore / 100, // normalize to 0-1
           metadata: {
