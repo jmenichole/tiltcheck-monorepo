@@ -604,8 +604,12 @@ function generateDashboardHTML() {
   `;
 }
 
-app.listen(PORT, () => {
-  console.log(`🎯 User Dashboard service listening on port ${PORT}`);
-  console.log(`📊 Dashboard: http://localhost:${PORT}/dashboard`);
-  console.log(`🔑 Discord OAuth: http://localhost:${PORT}/auth/discord`);
-});
+if (process.env.BUILD_SKIP_LISTEN === '1') {
+  console.log('[user-dashboard] BUILD_SKIP_LISTEN=1 set, skipping server listen.');
+} else {
+  app.listen(PORT, () => {
+    console.log(`🎯 User Dashboard service listening on port ${PORT}`);
+    console.log(`📊 Dashboard: http://localhost:${PORT}/dashboard`);
+    console.log(`🔑 Discord OAuth: http://localhost:${PORT}/auth/discord`);
+  });
+}

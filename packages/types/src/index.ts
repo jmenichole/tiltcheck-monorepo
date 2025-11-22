@@ -55,6 +55,19 @@ export type EventType =
   | 'survey.matched'
   | 'game.started'
   | 'game.completed'
+  // Gameplay analyzer extended events
+  | 'gameplay.session.started'
+  | 'gameplay.spin.processed'
+  | 'gameplay.session.ended'
+  | 'gameplay.csv.imported'
+  | 'gameplay.csv.parsed'
+  // Fairness anomaly detection events
+  | 'fairness.pump.detected'
+  | 'fairness.compression.detected'
+  | 'fairness.cluster.detected'
+  // Human review flow
+  | 'trust.human.verified'
+  | 'trust.false.positive'
   // LockVault events (time-locked disposable vault wallets)
   | 'vault.locked'
   | 'vault.extended'

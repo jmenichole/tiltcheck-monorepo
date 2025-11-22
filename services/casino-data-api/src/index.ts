@@ -500,15 +500,19 @@ app.get('/api/collection/status', authenticateAPI, async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`🎰 Casino Data API listening on port ${PORT}`);
-  console.log(`🔑 API Key: ${API_KEY}`);
-  console.log(`📊 Endpoints:`);
-  console.log(`   GET  /api/casinos - List all casinos`);
-  console.log(`   GET  /api/casinos/:id - Get specific casino`);
-  console.log(`   POST /api/casinos/:id - Submit casino data`);
-  console.log(`   POST /api/casinos/bulk - Bulk update casinos`);
-  console.log(`   GET  /api/trust/:id? - Get trust scores`);
-  console.log(`   GET  /api/templates - Data collection templates`);
-  console.log(`   GET  /api/collection/status - Collection statistics`);
-});
+if (process.env.BUILD_SKIP_LISTEN === '1') {
+  console.log('[casino-data-api] BUILD_SKIP_LISTEN=1 set, skipping server listen.');
+} else {
+  app.listen(PORT, () => {
+    console.log(`🎰 Casino Data API listening on port ${PORT}`);
+    console.log(`🔑 API Key: ${API_KEY}`);
+    console.log(`📊 Endpoints:`);
+    console.log(`   GET  /api/casinos - List all casinos`);
+    console.log(`   GET  /api/casinos/:id - Get specific casino`);
+    console.log(`   POST /api/casinos/:id - Submit casino data`);
+    console.log(`   POST /api/casinos/bulk - Bulk update casinos`);
+    console.log(`   GET  /api/trust/:id? - Get trust scores`);
+    console.log(`   GET  /api/templates - Data collection templates`);
+    console.log(`   GET  /api/collection/status - Collection statistics`);
+  });
+}

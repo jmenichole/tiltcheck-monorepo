@@ -11,7 +11,7 @@
   },
   "scripts": {
     "dev": "pnpm --parallel --recursive dev",
-    "build": "pnpm --recursive build",
+    "build": "pnpm -r run build",
     "test": "vitest --run",
     "test:watch": "vitest",
     "test:all": "pnpm --recursive test",

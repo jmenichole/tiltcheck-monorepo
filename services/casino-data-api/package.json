@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "echo 'skip casino-data-api runtime during CI build'",
+    "build": "BUILD_SKIP_LISTEN=1 tsx src/index.ts",
     "start": "node dist/index.js",
     "cli": "tsx src/cli.ts"
   },
