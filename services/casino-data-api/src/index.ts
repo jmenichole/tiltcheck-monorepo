@@ -7,11 +7,8 @@
 
 import express from 'express';
 import cors from 'cors';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import { join } from 'path';
 import fs from 'fs/promises';
-
-const __filename = fileURLToPath(import.meta.url);
 
 const app = express();
 const PORT = process.env.CASINO_API_PORT || 6002;

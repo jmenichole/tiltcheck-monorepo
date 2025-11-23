@@ -253,13 +253,13 @@ program
       console.log(`🎰 ${casino.name} (${casino.id})`);
       console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
       console.log(`URL: ${casino.baseURL}`);
-      console.log(`Status: ${casino.basicInfo.status}`);
+      console.log(`Status: ${casino.basicInfo?.status}`);
       
-      if (casino.basicInfo.regulator) {
+      if (casino.basicInfo?.regulator) {
         console.log(`Regulator: ${casino.basicInfo.regulator}`);
       }
       
-      if (casino.basicInfo.founded) {
+      if (casino.basicInfo?.founded) {
         console.log(`Founded: ${casino.basicInfo.founded}`);
       }
       
