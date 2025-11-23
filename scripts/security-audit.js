@@ -33,6 +33,21 @@ const TRACKED = {
     package: 'bigint-buffer',
     status: 'expected_present', // until upstream patch
   },
+  'GHSA-3xgq-45jj-v275': {
+    package: 'cross-spawn',
+    cve: 'CVE-2024-21538',
+    npm_id: '1103747',
+    status: 'mitigated', // overridden to >=7.0.6 in package.json
+    note: 'ReDoS vulnerability fixed in 7.0.5+; override enforces 7.0.6+',
+  },
+  '1103747': {
+    // Legacy npm advisory ID that redirects to GHSA-3xgq-45jj-v275
+    package: 'cross-spawn',
+    cve: 'CVE-2024-21538',
+    ghsa: 'GHSA-3xgq-45jj-v275',
+    status: 'mitigated', // overridden to >=7.0.6 in package.json
+    note: 'ReDoS vulnerability fixed in 7.0.5+; override enforces 7.0.6+',
+  },
 };
 
 function analyze(auditJson) {

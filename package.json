@@ -68,7 +68,8 @@
   ,
   "pnpm": {
     "overrides": {
-      "prismjs": "1.30.0"
+      "prismjs": "1.30.0",
+      "cross-spawn": ">=7.0.6"
     }
   }
 }
