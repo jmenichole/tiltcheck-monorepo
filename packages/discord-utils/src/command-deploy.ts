@@ -50,8 +50,8 @@ function isPathWithinBase(filePath: string, baseDir: string): boolean {
     const resolvedBase = path.resolve(baseDir);
     const relative = path.relative(resolvedBase, resolvedFile);
     
-    // If the relative path is empty, starts with '..', or is absolute, it's invalid
-    return relative !== '' && !relative.startsWith('..') && !path.isAbsolute(relative);
+    // Allow files in the base directory (empty string) or subdirectories (no '..' or absolute paths)
+    return relative === '' || (!relative.startsWith('..') && !path.isAbsolute(relative));
   } catch {
     return false;
   }
