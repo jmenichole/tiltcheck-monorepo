@@ -1,5 +1,5 @@
 # Build stage
-FROM node:20-alpine AS builder
+FROM node:25-alpine AS builder
 
 # Install pnpm matching lockfileVersion 9
 RUN npm install -g pnpm@9
@@ -45,7 +45,7 @@ COPY apps/discord-bot/package.json ./apps/discord-bot/
 RUN pnpm run build
 
 # Production stage
-FROM node:20-alpine
+FROM node:25-alpine
 
 # Install pnpm matching lockfileVersion 9
 RUN npm install -g pnpm@9
