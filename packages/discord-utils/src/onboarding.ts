@@ -101,10 +101,8 @@ export function isNewUser(userId: string): boolean {
 /**
  * Send welcome DM to new user
  */
-export async function sendWelcomeDM(user: User, botName: 'TiltCheck' | 'JustTheTip'): Promise<boolean> {
-  try {
     const isTiltCheck = botName === 'TiltCheck';
-    const verifyUrl = process.env.DISCORD_USER_OAUTH_URL || process.env.IDENTITY_VERIFY_URL || (process.env.BASE_PUBLIC_URL ? `${process.env.BASE_PUBLIC_URL.replace(/\/$/, '')}/verify` : 'https://tiltcheck.it.com/verify');
+    const verifyUrl = getVerifyUrl();
     const botInviteUrl = process.env.DISCORD_BOT_INVITE_URL || 'https://discord.com/oauth2/authorize?client_id=1425775422360125524&permissions=2252626595138624&scope=bot+applications.commands';
     
     const welcomeEmbed = new EmbedBuilder()
