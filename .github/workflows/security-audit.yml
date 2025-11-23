@@ -90,7 +90,7 @@ jobs:
 
       - name: Create or update tracking issue
         if: steps.check_bigint.outputs.bigint_present == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         env:
           BIGINT_VERSION: ${{ steps.check_ghsa.outputs.bigint_version }}
         with:
