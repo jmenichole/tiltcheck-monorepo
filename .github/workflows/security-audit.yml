@@ -1,0 +1,34 @@
+name: Security Audit
+
+on:
+  schedule:
+    - cron: '15 4 * * *' # daily early morning UTC
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Activate pnpm
+        run: corepack prepare pnpm@9 --activate
+      - name: Install deps (frozen)
+        run: pnpm install --frozen-lockfile
+      - name: Run security audit script
+        run: node scripts/security-audit.js
+      - name: Upload audit report (raw)
+        if: always()
+        run: pnpm audit --json > audit-report.json
+      - name: Artifact audit-report.json
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-audit-report
+          path: audit-report.json
