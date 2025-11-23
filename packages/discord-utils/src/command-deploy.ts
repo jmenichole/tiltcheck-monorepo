@@ -1,8 +1,62 @@
 import { REST, Routes, SlashCommandBuilder } from 'discord.js';
-import { readdirSync, statSync, writeFileSync, mkdirSync } from 'fs';
+import { readdirSync, statSync, writeFileSync, mkdirSync, realpathSync } from 'fs';
 import path from 'path';
 import { createRequire } from 'module';
 const req = createRequire(import.meta.url);
+
+/**
+ * Validates and sanitizes a directory path to prevent path traversal attacks.
+ * @param dirPath - The directory path to validate
+ * @returns The validated absolute path
+ * @throws Error if the path is invalid or doesn't exist
+ */
+function validateDirectoryPath(dirPath: string): string {
+  if (!dirPath || typeof dirPath !== 'string') {
+    throw new Error('Invalid commandsDir: path must be a non-empty string');
+  }
+  
+  // Resolve to absolute path
+  const absolutePath = path.resolve(dirPath);
+  
+  // Resolve symlinks - handle errors separately for better error messages
+  let realPath: string;
+  try {
+    realPath = realpathSync(absolutePath);
+  } catch (err) {
+    throw new Error(`Invalid commandsDir: unable to resolve path ${dirPath} - ${err instanceof Error ? err.message : String(err)}`);
+  }
+  
+  // Verify it's a directory
+  try {
+    if (!statSync(realPath).isDirectory()) {
+      throw new Error(`Invalid commandsDir: ${dirPath} is not a directory`);
+    }
+  } catch (err) {
+    throw new Error(`Invalid commandsDir: cannot access ${dirPath} - ${err instanceof Error ? err.message : String(err)}`);
+  }
+  
+  return realPath;
+}
+
+/**
+ * Validates that a file path is within the allowed base directory.
+ * @param filePath - The file path to validate
+ * @param baseDir - The base directory that the file must be within
+ * @returns True if the file is within the base directory
+ */
+function isPathWithinBase(filePath: string, baseDir: string): boolean {
+  try {
+    // Resolve symlinks to prevent symlink-based directory traversal
+    const resolvedFile = realpathSync(filePath);
+    const resolvedBase = realpathSync(baseDir);
+    const relative = path.relative(resolvedBase, resolvedFile);
+    
+    // Allow files in the base directory (empty string) or subdirectories (no '..' or absolute paths)
+    return relative === '' || (!relative.startsWith('..') && !path.isAbsolute(relative));
+  } catch {
+    return false;
+  }
+}
 
 export interface DeployOptions {
   token: string;
@@ -21,23 +75,21 @@ export interface DiffResult {
 }
 
 export function discoverCommands(commandsDir: string): any[] {
-  // Legacy synchronous discovery (prefers built JS). Falls back to async variant if empty.
-  // Validate commandsDir to prevent path traversal attacks
-  const resolvedCommandsDir = path.resolve(commandsDir);
-  if (!resolvedCommandsDir.startsWith(path.resolve(process.cwd()))) {
-    throw new Error('Invalid commands directory: path traversal detected');
-  }
+  // Validate and sanitize the commands directory path
+  const validatedDir = validateDirectoryPath(commandsDir);
   
-  const entries = readdirSync(resolvedCommandsDir);
+  // Legacy synchronous discovery (prefers built JS). Falls back to async variant if empty.
+  const entries = readdirSync(validatedDir);
   const commands: any[] = [];
   for (const file of entries) {
-    // Prevent directory traversal in file names
-    if (file.includes('..') || file.includes('/') || file.includes('\\')) {
-      console.warn(`[command-deploy] Skipping suspicious file name: ${file}`);
+    const full = path.join(validatedDir, file);
+    
+    // Security: Ensure the file is within the commands directory
+    if (!isPathWithinBase(full, validatedDir)) {
+      console.warn(`[Security] Skipping file outside commands directory:`, path.basename(file));
       continue;
     }
     
-    const full = path.join(resolvedCommandsDir, file);
     if (statSync(full).isDirectory()) continue;
     if (!full.endsWith('.js')) continue; // only pick js here
     try {
@@ -57,22 +109,20 @@ export function discoverCommands(commandsDir: string): any[] {
 }
 
 export async function discoverCommandsAsync(commandsDir: string): Promise<any[]> {
-  // Validate commandsDir to prevent path traversal attacks
-  const resolvedCommandsDir = path.resolve(commandsDir);
-  if (!resolvedCommandsDir.startsWith(path.resolve(process.cwd()))) {
-    throw new Error('Invalid commands directory: path traversal detected');
-  }
+  // Validate and sanitize the commands directory path
+  const validatedDir = validateDirectoryPath(commandsDir);
   
-  const entries = readdirSync(resolvedCommandsDir);
+  const entries = readdirSync(validatedDir);
   const commands: any[] = [];
   for (const file of entries) {
-    // Prevent directory traversal in file names
-    if (file.includes('..') || file.includes('/') || file.includes('\\')) {
-      console.warn(`[command-deploy] Skipping suspicious file name: ${file}`);
+    const full = path.join(validatedDir, file);
+    
+    // Security: Ensure the file is within the commands directory
+    if (!isPathWithinBase(full, validatedDir)) {
+      console.warn(`[Security] Skipping file outside commands directory:`, path.basename(file));
       continue;
     }
     
-    const full = path.join(resolvedCommandsDir, file);
     if (statSync(full).isDirectory()) continue;
     if (!/(\.ts|\.js)$/.test(full)) continue;
     try {
