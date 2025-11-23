@@ -2,6 +2,7 @@ import { Keypair } from '@solana/web3.js';
 import { eventRouter } from '@tiltcheck/event-router';
 import { parseAmount } from '@tiltcheck/natural-language-parser';
 import fs from 'fs';
+const fsPromises = fs.promises;
 import path from 'path';
 
 export interface LockVaultInput {
