@@ -55,10 +55,26 @@ npx pnpm install
 
 ### 4. Deploy Commands
 
+Enhanced deployment supports diff, dry-run, selective removal, and artifact logging.
+
 ```bash
-# Deploy slash commands to Discord
-npx tsx apps/discord-bot/src/deploy-commands.ts
+# Dry-run (prints diff, no changes)
+pnpm --filter @tiltcheck/discord-bot deploy:commands:dry-run
+
+# Global deploy
+pnpm --filter @tiltcheck/discord-bot deploy:commands
+
+# Guild-scoped (faster propagation)
+pnpm --filter @tiltcheck/discord-bot deploy:commands --guild <GUILD_ID>
+
+# Remove a command (example: legacy 'play')
+pnpm --filter @tiltcheck/discord-bot deploy:commands:dry-run --remove play
+pnpm --filter @tiltcheck/discord-bot deploy:commands --remove play
 ```
+
+Artifact written to `apps/discord-bot/data/last-command-sync.json` with added/removed/unchanged lists.
+
+GitHub Actions workflow `Commands Deploy` allows manual `workflow_dispatch` deployment across bots with inputs (bot, perform, removeName, dryRun, guildId, token/clientId).
 
 ### 5. Run the Bot
 
@@ -105,6 +121,17 @@ apps/discord-bot/
 │   ├── config.ts          # Configuration management
 │   ├── types.ts           # TypeScript types
 │   ├── deploy-commands.ts # Command deployment script
+│   ├── (uses shared utility from @tiltcheck/discord-utils/command-deploy)
+## Shared Deployment Utility
+
+Both this bot and JustTheTip bot use a shared utility exported by `@tiltcheck/discord-utils` (`command-deploy.ts`) providing:
+- Command discovery
+- Existing vs next diff (added/removed/unchanged)
+- Dry-run mode
+- Selective removal
+- Artifact writing
+
+Refactor guidelines: call `deployCommands({ token, clientId, guildId, commandsDir })` instead of duplicating logic.
 │   └── index.ts           # Main entry point
 ├── .env.example
 ├── package.json

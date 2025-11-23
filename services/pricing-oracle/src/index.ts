@@ -8,6 +8,8 @@ export interface PriceOracle {
   isStale(token: string): boolean;
   setTTL(ms: number): void;
   refreshPrice(token: string, fetcher: () => Promise<number>): Promise<number>;
+  convertUsdToSol(usd: number): number;
+  convertSolToUsd(sol: number): number;
 }
 
 class InMemoryPriceOracle implements PriceOracle {
@@ -63,6 +65,16 @@ class InMemoryPriceOracle implements PriceOracle {
     const newPrice = await fetcher();
     this.setUsdPrice(token, newPrice, true);
     return newPrice;
+  }
+
+  convertUsdToSol(usd: number): number {
+    const solPrice = this.getUsdPrice('SOL');
+    return solPrice ? usd / solPrice : 0;
+  }
+
+  convertSolToUsd(sol: number): number {
+    const solPrice = this.getUsdPrice('SOL');
+    return solPrice ? sol * solPrice : 0;
   }
 }
 

@@ -1,0 +1,71 @@
+{
+  "timestamp": "2025-11-22T16:05:34.156Z",
+  "scope": "global",
+  "guildId": null,
+  "added": [
+    "balance",
+    "claim",
+    "history",
+    "leaderboard",
+    "pending",
+    "wallet"
+  ],
+  "removed": [
+    "status",
+    "logs",
+    "disconnect-wallet",
+    "register-magic",
+    "faq",
+    "report",
+    "triviadrop"
+  ],
+  "unchanged": [
+    "airdrop",
+    "help",
+    "support",
+    "tip"
+  ],
+  "total": 10,
+  "commands": [
+    {
+      "name": "airdrop",
+      "description": "Send a tip to multiple users (multi-transfer)"
+    },
+    {
+      "name": "balance",
+      "description": "Check your Solana wallet balance"
+    },
+    {
+      "name": "claim",
+      "description": "Claim pending tips sent before you registered"
+    },
+    {
+      "name": "help",
+      "description": "Show JustTheTip commands and features"
+    },
+    {
+      "name": "history",
+      "description": "View your tip transaction history"
+    },
+    {
+      "name": "leaderboard",
+      "description": "View tipping leaderboard"
+    },
+    {
+      "name": "pending",
+      "description": "View pending tips sent to you"
+    },
+    {
+      "name": "support",
+      "description": "Request help from TiltCheck support"
+    },
+    {
+      "name": "tip",
+      "description": "Send a SOL tip to another user"
+    },
+    {
+      "name": "wallet",
+      "description": "Manage your Solana wallet"
+    }
+  ]
+}

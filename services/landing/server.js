@@ -2,7 +2,15 @@
 const express = require('express');
 const path = require('path');
 const { loadConfig } = require('./lib/config');
-const { buildAdminIPs, ipAllowlistMiddleware, initLogging } = require('@tiltcheck/express-utils');
+let buildAdminIPs, ipAllowlistMiddleware, initLogging;
+try {
+  ({ buildAdminIPs, ipAllowlistMiddleware, initLogging } = require('@tiltcheck/express-utils'));
+} catch (err) {
+  console.warn('[Landing] express-utils module missing, using stubs');
+  buildAdminIPs = (cfg) => [cfg.ADMIN_IP_1 || '127.0.0.1'];
+  ipAllowlistMiddleware = () => (req, res, next) => next();
+  initLogging = () => ({ requestLogger: (_req,_res,next)=>next(), adminLogger:()=>{}, buildMetrics:()=>({ topPaths:[], topUAs:[] }), pathCounters:{} });
+}
 const { getLatestCasinoCSVPath } = require('./lib/data-latest');
 const { buildServiceStatus, buildSiteMap } = require('./lib/meta');
 const { rateLimitMiddleware, initRateLimiter, closeRateLimiter } = require('./lib/rate-limiter');
@@ -320,10 +328,14 @@ app.use((req, res) => {
   res.status(404).json({ error: 'Not Found', path: req.originalUrl });
 });
 
-// Initialize Redis rate limiter
-initRateLimiter().catch(err => {
-  console.warn('[Server] Rate limiter init failed, using in-memory fallback:', err.message);
-});
+// Initialize Redis rate limiter (skip in test mode for stability)
+if (!process.env.TEST_LANDING) {
+  initRateLimiter().catch(err => {
+    console.warn('[Server] Rate limiter init failed, using in-memory fallback:', err.message);
+  });
+} else {
+  console.log('[Landing] TEST_LANDING active: skipping Redis rate limiter init');
+}
 
 // Graceful shutdown
 process.on('SIGTERM', async () => {

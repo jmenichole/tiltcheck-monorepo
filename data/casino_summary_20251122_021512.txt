@@ -1,0 +1,372 @@
+================================================================================
+CASINO INTELLIGENCE COLLECTOR - SUMMARY REPORT
+================================================================================
+
+Report Generated: 2025-11-22 02:15:12
+Total Casinos Analyzed: 44
+
+--------------------------------------------------------------------------------
+OVERALL STATISTICS
+--------------------------------------------------------------------------------
+Average Data Completeness: 17.7%
+Total Licenses Found: 9
+Total Provider Relationships: 240
+Casinos with SSL: 44/44
+Casinos with 2FA: 5/44
+
+--------------------------------------------------------------------------------
+INDIVIDUAL CASINO DETAILS
+--------------------------------------------------------------------------------
+
+Casino: HelloMillions.com
+URL: https://www.hellomillions.com/lp/raf?r=26d6760f%2F1236643867
+Completeness: 22.5%
+Licenses: 0
+Providers: 23
+Withdrawal Methods: 1
+Reviews: 0
+
+Casino: Free Social Casino Online
+URL: https://www.spinblitz.com/lp/raf?r=606f64a3%2F1246446739
+Completeness: 29.0%
+Licenses: 0
+Providers: 22
+Withdrawal Methods: 3
+Reviews: 0
+
+Casino: MegaBonanza - Ultimate Social Casino Experience
+URL: https://www.megabonanza.com/?r=72781897
+Completeness: 42.0%
+Licenses: 0
+Providers: 43
+Withdrawal Methods: 4
+Reviews: 1
+
+Casino: Real Prize
+URL: https://www.realprize.com/refer/317136
+Completeness: 19.5%
+Licenses: 0
+Providers: 5
+Withdrawal Methods: 2
+Reviews: 0
+
+Casino: LuckyBird social sweepstakes casino
+URL: https://luckybird.vip/?c=c_jmenichole
+Completeness: 7.0%
+Licenses: 0
+Providers: 0
+Withdrawal Methods: 1
+Reviews: 0
+
+Casino: WOW Vegas
+URL: https://www.wowvegas.com/?raf=3615494
+Completeness: 11.0%
+Licenses: 0
+Providers: 0
+Withdrawal Methods: 1
+Reviews: 0
+
+Casino: MODO
+URL: https://modo.us/
+Completeness: 9.0%
+Licenses: 0
+Providers: 0
+Withdrawal Methods: 0
+Reviews: 0
+
+Casino: You Were Referred by a Friend
+URL: https://www.mcluck.com/lp/raf?r=61119407%2F908900038
+Completeness: 17.5%
+Licenses: 0
+Providers: 13
+Withdrawal Methods: 1
+Reviews: 0
+
+Casino: CrownCoinsCasino
+URL: https://crowncoinscasino.com/?utm_campaign=59048bf4-dbeb-4c58-b690-d7ad11bdb847&utm_source=friends
+Completeness: 5.0%
+Licenses: 0
+Providers: 0
+Withdrawal Methods: 0
+Reviews: 0
+
+Casino: Sportzino · Sign up — Register for a Free Account
+URL: https://sportzino.com/signup/8a105ba6-7ada-45c8-b021-f478ac03c7c4
+Completeness: 23.0%
+Licenses: 0
+Providers: 0
+Withdrawal Methods: 1
+Reviews: 0
+
+Casino: PlayFame: Social Casino Games
+URL: https://www.playfame.com/lp/raf?r=1275975417
+Completeness: 24.0%
+Licenses: 0
+Providers: 24
+Withdrawal Methods: 0
+Reviews: 0
+
+Casino: Best Social Bingo - Play Free Bingo Games Online
+URL: https://www.pulszbingo.com/?invited_by=eg6mbf
+Completeness: 17.5%
+Licenses: 1
+Providers: 5
+Withdrawal Methods: 0
+Reviews: 0
+
+Casino: Jackpota
+URL: https://www.jackpota.com/?r=85453282
+Completeness: 18.0%
+Licenses: 0
+Providers: 8
+Withdrawal Methods: 1
+Reviews: 0
+
+Casino: Play and Win at Zula Casino: The Hottest New Social Casino in the U.S.
+URL: https://www.zulacasino.com/signup/221ddd92-862e-45d8-acc0-4cd2c26f7cdd
+Completeness: 9.0%
+Licenses: 0
+Providers: 0
+Withdrawal Methods: 0
+Reviews: 0
+
+Casino: Fortune Coins
+URL: https://www.fortunecoins.com/signup/3c08936f-8979-4f87-b377-efdbff519029
+Completeness: 9.0%
+Licenses: 0
+Providers: 0
+Withdrawal Methods: 0
+Reviews: 0
+
+Casino: Bitsler.io - Free Social Casino for US Players
+URL: https://www.bitsler.io/?ref=jmenichole
+Completeness: 45.0%
+Licenses: 0
+Providers: 24
+Withdrawal Methods: 6
+Reviews: 0
+
+Casino: MyPrize US: Free Social Casino Games
+URL: https://myprize.us/invite/jmenichole
+Completeness: 16.0%
+Licenses: 0
+Providers: 18
+Withdrawal Methods: 1
+Reviews: 0
+
+Casino: Winna Crypto Casino – Play and Win Big with Bitcoin & Crypto
+URL: https://winna.com/?r=jmenichole
+Completeness: 9.0%
+Licenses: 0
+Providers: 0
+Withdrawal Methods: 2
+Reviews: 0
+
+Casino: Clubs Poker
+URL: https://play.clubs.poker/?referralCode=104192
+Completeness: 5.0%
+Licenses: 0
+Providers: 0
+Withdrawal Methods: 0
+Reviews: 0
+
+Casino: Rolla
+URL: https://www.rolla.com/?raf=3873
+Completeness: 11.0%
+Licenses: 0
+Providers: 0
+Withdrawal Methods: 1
+Reviews: 0
+
+Casino: LoneStar Casino
+URL: https://lonestarcasino.com/refer/678504
+Completeness: 26.5%
+Licenses: 0
+Providers: 5
+Withdrawal Methods: 3
+Reviews: 1
+
+Casino: Best Social Casino in USA - Free to Play
+URL: https://spree.com/?r=1450539
+Completeness: 42.5%
+Licenses: 0
+Providers: 19
+Withdrawal Methods: 7
+Reviews: 0
+
+Casino: High 5 Casino
+URL: https://high5casino.com/gc?adId=INV001%3AJmenichole
+Completeness: 14.5%
+Licenses: 0
+Providers: 3
+Withdrawal Methods: 1
+Reviews: 0
+
+Casino: Bitcoin Faucet Claim Every 6 Hours at TrustDice Faucet Pages
+URL: https://trustdice.win/faucet/?ref=u_jmenichole
+Completeness: 34.0%
+Licenses: 1
+Providers: 6
+Withdrawal Methods: 9
+Reviews: 0
+
+Casino: Punt.com â The #1 Free to Play US Social Casino
+URL: https://punt.com/c/cg60pd
+Completeness: 5.0%
+Licenses: 0
+Providers: 0
+Withdrawal Methods: 0
+Reviews: 0
+
+Casino: Fortune Wheelz Social Casino: Play for Free
+URL: https://fortunewheelz.com/?invited_by=P36ZS6
+Completeness: 22.0%
+Licenses: 0
+Providers: 2
+Withdrawal Methods: 1
+Reviews: 0
+
+Casino: ZOOT: Play Free Crash, Plinko, Mines, and Dice Games for Cash Prizes
+URL: https://getzoot.us/?referralCode=ZOOTwithJMENICHOLE
+Completeness: 9.0%
+Licenses: 0
+Providers: 0
+Withdrawal Methods: 0
+Reviews: 0
+
+Casino: legendz.com
+URL: https://legendz.com/?referred_by_id=221602
+Completeness: 26.5%
+Licenses: 1
+Providers: 3
+Withdrawal Methods: 1
+Reviews: 0
+
+Casino: NoLimitCoins
+URL: https://nolimitcoins.com/?invited_by=ZI1JIU
+Completeness: 15.5%
+Licenses: 0
+Providers: 1
+Withdrawal Methods: 1
+Reviews: 0
+
+Casino: Slips - Live Betting
+URL: https://slips.com/invite?code=6901
+Completeness: 5.0%
+Licenses: 0
+Providers: 0
+Withdrawal Methods: 0
+Reviews: 0
+
+Casino: âDabble - Real Money Pick 'Em App - App Store
+URL: https://click.dabble.com/GaFA/js1v7hqv
+Completeness: 44.0%
+Licenses: 4
+Providers: 0
+Withdrawal Methods: 3
+Reviews: 1
+
+Casino: Goated – Play & Bet with Crypto
+URL: https://www.goated.com/r/YDRZLJ
+Completeness: 15.0%
+Licenses: 0
+Providers: 0
+Withdrawal Methods: 1
+Reviews: 0
+
+Casino: Shuffle
+URL: https://shuffle.com/
+Completeness: 53.0%
+Licenses: 1
+Providers: 14
+Withdrawal Methods: 12
+Reviews: 1
+
+Casino: 
+URL: https://clash.gg/r/stakestats
+Completeness: 13.0%
+Licenses: 0
+Providers: 0
+Withdrawal Methods: 2
+Reviews: 0
+
+Casino: Jmenichole is on Jemlit
+URL: https://jemlit.com/en/a/Jmenichole
+Completeness: 17.0%
+Licenses: 0
+Providers: 0
+Withdrawal Methods: 2
+Reviews: 0
+
+Casino: Roxy Moxy
+URL: https://roxymoxy.com/home?invite=f94f874427
+Completeness: 5.0%
+Licenses: 0
+Providers: 0
+Withdrawal Methods: 0
+Reviews: 0
+
+Casino: Lucky Bits Vegas Casino
+URL: https://luckybitsvegas.com/gc/?adId=INV001%3Ajmenichole
+Completeness: 13.0%
+Licenses: 0
+Providers: 0
+Withdrawal Methods: 4
+Reviews: 0
+
+Casino: Roxy Moxy
+URL: https://roxymoxy.com/
+Completeness: 5.0%
+Licenses: 0
+Providers: 0
+Withdrawal Methods: 0
+Reviews: 0
+
+Casino: Rollingriches
+URL: https://rollingriches.com/
+Completeness: 5.0%
+Licenses: 0
+Providers: 0
+Withdrawal Methods: 0
+Reviews: 0
+
+Casino: RagingBull
+URL: https://ragingbull.com/
+Completeness: 16.0%
+Licenses: 1
+Providers: 0
+Withdrawal Methods: 2
+Reviews: 0
+
+Casino: Social casino 2025
+URL: https://moonspin.com/
+Completeness: 28.0%
+Licenses: 0
+Providers: 2
+Withdrawal Methods: 7
+Reviews: 0
+
+Casino: Lunaland - Home
+URL: https://lunalandcasino.com/
+Completeness: 5.0%
+Licenses: 0
+Providers: 0
+Withdrawal Methods: 0
+Reviews: 0
+
+Casino: LuckyLand Casino
+URL: https://luckylandslots.com/
+Completeness: 5.0%
+Licenses: 0
+Providers: 0
+Withdrawal Methods: 0
+Reviews: 0
+
+Casino: Redirecting...
+URL: https://legendzcasino.com/
+Completeness: 5.0%
+Licenses: 0
+Providers: 0
+Withdrawal Methods: 0
+Reviews: 0
+

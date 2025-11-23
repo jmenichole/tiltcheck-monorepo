@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM node:20-alpine3.19
 
 # Install pnpm (lockfileVersion 9 alignment)
 RUN npm install -g pnpm@9

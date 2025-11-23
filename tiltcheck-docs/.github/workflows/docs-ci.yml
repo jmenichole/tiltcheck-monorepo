@@ -1,0 +1,56 @@
+name: Docs CI
+on:
+  push:
+    paths:
+      - 'tiltcheck-docs/**'
+  pull_request:
+    paths:
+      - 'tiltcheck-docs/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        working-directory: tiltcheck-docs
+        run: npm install
+      - name: Build Docusaurus
+        working-directory: tiltcheck-docs
+        run: npm run build
+      - name: Lychee Link Checker
+        uses: lycheeverse/lychee-action@v1
+        with:
+          args: "--verbose --no-progress --exclude-mail --accept 200,302 tiltcheck-docs/build"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: tiltcheck-docs/build
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        working-directory: tiltcheck-docs
+        run: npm install
+      - name: Build Docusaurus
+        working-directory: tiltcheck-docs
+        run: npm run build
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: tiltcheck-docs/build

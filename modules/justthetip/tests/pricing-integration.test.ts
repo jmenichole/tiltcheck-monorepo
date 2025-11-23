@@ -1,14 +1,14 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { JustTheTipModule } from '../src/index';
 import { pricingOracle } from '@tiltcheck/pricing-oracle';
-import { eventRouter } from '@tiltcheck/event-router';
+import { expectEvent } from '@tiltcheck/test-utils';
 
 describe('JustTheTip Pricing Integration', () => {
   let mod: JustTheTipModule;
 
   beforeEach(() => {
     mod = new JustTheTipModule();
-    eventRouter.clearHistory();
+    // events auto-reset via global setup; ensure deterministic pricing
     pricingOracle.setUsdPrice('SOL', 200);
     pricingOracle.setUsdPrice('USDC', 1);
     mod.registerWallet('sender', 'senderWallet', 'phantom');
@@ -17,6 +17,7 @@ describe('JustTheTip Pricing Integration', () => {
 
   it('uses oracle SOL price to compute solAmount for USD tip', async () => {
     const tip = await mod.initiateTip('sender', 'recipient', 20, 'USD'); // $20
+    expectEvent('tip.initiated');
     // SOL price 200 => 0.10 SOL
     expect(tip.solAmount).toBeCloseTo(0.1);
 
@@ -29,6 +30,7 @@ describe('JustTheTip Pricing Integration', () => {
 
   it('reflects oracle price changes in token tipping swap quote', async () => {
     const { tip } = await mod.initiateTokenTip('sender', 'recipient', 10, 'USDC'); // $10
+    expectEvent('swap.quote');
     expect(tip.solAmount).toBeCloseTo(0.05); // 10 / 200
 
     pricingOracle.setUsdPrice('SOL', 250);

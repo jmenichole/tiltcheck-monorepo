@@ -1,0 +1,311 @@
+{
+  "profiles": {
+    "1153034319271559328": {
+      "discordId": "1153034319271559328",
+      "wallets": [],
+      "trustScore": 50,
+      "trustBand": "YELLOW",
+      "signals": [],
+      "createdAt": "2025-11-22T15:33:41.798Z",
+      "updatedAt": "2025-11-22T15:33:41.798Z"
+    },
+    "test-user-123": {
+      "discordId": "test-user-123",
+      "wallets": [],
+      "trustScore": 100,
+      "trustBand": "PLATINUM",
+      "signals": [
+        {
+          "id": "01KAP63MPR1RBS5570PQB2MM0P",
+          "discordId": "test-user-123",
+          "source": "tip",
+          "metric": "tip_activity",
+          "value": 0.5,
+          "weight": 1,
+          "createdAt": "2025-11-22T16:24:43.480Z"
+        },
+        {
+          "id": "01KAP63MPSQ8WGEECDK5YAS0NP",
+          "discordId": "test-user-123",
+          "source": "tilt",
+          "metric": "tilt_severity",
+          "value": -1,
+          "weight": 1,
+          "createdAt": "2025-11-22T16:24:43.482Z"
+        },
+        {
+          "id": "01KAP63MPVNTE234PHBNS71E42",
+          "discordId": "test-user-123",
+          "source": "gameplay",
+          "metric": "pump_detected",
+          "value": -0.54,
+          "weight": 0.5,
+          "createdAt": "2025-11-22T16:24:43.483Z"
+        },
+        {
+          "id": "01KAP63MPWHAAM2EZR0XD7T73J",
+          "discordId": "test-user-123",
+          "source": "gameplay",
+          "metric": "rtp_drift",
+          "value": -0.2,
+          "weight": 0.5,
+          "createdAt": "2025-11-22T16:24:43.484Z"
+        },
+        {
+          "id": "01KAP63MPXKEH5SE4NQ2NRD7XV",
+          "discordId": "test-user-123",
+          "source": "gameplay",
+          "metric": "cluster_detected",
+          "value": -0.1875,
+          "weight": 0.4,
+          "createdAt": "2025-11-22T16:24:43.485Z"
+        },
+        {
+          "id": "01KAP652QT426HXDPEZEE2311Z",
+          "discordId": "test-user-123",
+          "source": "tip",
+          "metric": "tip_activity",
+          "value": 0.5,
+          "weight": 1,
+          "createdAt": "2025-11-22T16:25:30.619Z"
+        },
+        {
+          "id": "01KAP652QYVRDJ7V29F271AKBK",
+          "discordId": "test-user-123",
+          "source": "gameplay",
+          "metric": "pump_detected",
+          "value": -0.54,
+          "weight": 0.5,
+          "createdAt": "2025-11-22T16:25:30.622Z"
+        },
+        {
+          "id": "01KAP652QZK4FBNX8KD2XKDEG3",
+          "discordId": "test-user-123",
+          "source": "gameplay",
+          "metric": "cluster_detected",
+          "value": -0.1875,
+          "weight": 0.4,
+          "createdAt": "2025-11-22T16:25:30.623Z"
+        },
+        {
+          "id": "01KAP65TTHCGGM3GTBY7JWM82R",
+          "discordId": "test-user-123",
+          "source": "tip",
+          "metric": "tip_activity",
+          "value": 0.8,
+          "weight": 1,
+          "createdAt": "2025-11-22T16:25:55.282Z"
+        },
+        {
+          "id": "01KAP65TTK5D5JPAM6SV0GMJ85",
+          "discordId": "test-user-123",
+          "source": "gameplay",
+          "metric": "pump_detected",
+          "value": -0.54,
+          "weight": 0.5,
+          "createdAt": "2025-11-22T16:25:55.283Z"
+        },
+        {
+          "id": "01KAP65TTMDDY1JCYSPT5Y6TH2",
+          "discordId": "test-user-123",
+          "source": "gameplay",
+          "metric": "cluster_detected",
+          "value": -0.1875,
+          "weight": 0.4,
+          "createdAt": "2025-11-22T16:25:55.284Z"
+        },
+        {
+          "id": "01KAP660KA8X4Z47VEEM9XM0EQ",
+          "discordId": "test-user-123",
+          "source": "tip",
+          "metric": "tip_activity",
+          "value": 0.8,
+          "weight": 1,
+          "createdAt": "2025-11-22T16:26:01.194Z"
+        },
+        {
+          "id": "01KAP660KDJTJM4MQ5H182RCSZ",
+          "discordId": "test-user-123",
+          "source": "gameplay",
+          "metric": "pump_detected",
+          "value": -0.54,
+          "weight": 0.5,
+          "createdAt": "2025-11-22T16:26:01.197Z"
+        },
+        {
+          "id": "01KAP660KETG7P56MZHBHPR0Y8",
+          "discordId": "test-user-123",
+          "source": "gameplay",
+          "metric": "cluster_detected",
+          "value": -0.1875,
+          "weight": 0.4,
+          "createdAt": "2025-11-22T16:26:01.198Z"
+        },
+        {
+          "id": "01KAP68WS6K209HQ7M148G3TMK",
+          "discordId": "test-user-123",
+          "source": "tip",
+          "metric": "tip_activity",
+          "value": 0.8,
+          "weight": 1,
+          "createdAt": "2025-11-22T16:27:35.591Z"
+        },
+        {
+          "id": "01KAP68WS8SM3987ZRBTJQSPEW",
+          "discordId": "test-user-123",
+          "source": "gameplay",
+          "metric": "pump_detected",
+          "value": -0.54,
+          "weight": 0.5,
+          "createdAt": "2025-11-22T16:27:35.593Z"
+        },
+        {
+          "id": "01KAP68WSATXD4CQZ5QEYC26BV",
+          "discordId": "test-user-123",
+          "source": "gameplay",
+          "metric": "cluster_detected",
+          "value": -0.1875,
+          "weight": 0.4,
+          "createdAt": "2025-11-22T16:27:35.594Z"
+        },
+        {
+          "id": "01KAP6CFPXMYKZ6VPZJM0YQHVC",
+          "discordId": "test-user-123",
+          "source": "tip",
+          "metric": "tip_activity",
+          "value": 0.8,
+          "weight": 1,
+          "createdAt": "2025-11-22T16:29:33.277Z"
+        },
+        {
+          "id": "01KAP6CFQ0RGGH7ZQ663DJ6AKK",
+          "discordId": "test-user-123",
+          "source": "gameplay",
+          "metric": "pump_detected",
+          "value": -0.54,
+          "weight": 0.5,
+          "createdAt": "2025-11-22T16:29:33.280Z"
+        },
+        {
+          "id": "01KAP6CFQ2AMH3FP1NFF9V5H6V",
+          "discordId": "test-user-123",
+          "source": "gameplay",
+          "metric": "cluster_detected",
+          "value": -0.1875,
+          "weight": 0.4,
+          "createdAt": "2025-11-22T16:29:33.282Z"
+        },
+        {
+          "id": "01KAP6E5YA1ZDM8D9C50XRFGFX",
+          "discordId": "test-user-123",
+          "source": "tip",
+          "metric": "tip_activity",
+          "value": 0.8,
+          "weight": 1,
+          "createdAt": "2025-11-22T16:30:28.811Z"
+        },
+        {
+          "id": "01KAP6E5YDP2D7CE6YS1KMNF4H",
+          "discordId": "test-user-123",
+          "source": "gameplay",
+          "metric": "pump_detected",
+          "value": -0.54,
+          "weight": 0.5,
+          "createdAt": "2025-11-22T16:30:28.813Z"
+        },
+        {
+          "id": "01KAP6E5YF4F96Z1PCB952MJDF",
+          "discordId": "test-user-123",
+          "source": "gameplay",
+          "metric": "cluster_detected",
+          "value": -0.1875,
+          "weight": 0.4,
+          "createdAt": "2025-11-22T16:30:28.815Z"
+        },
+        {
+          "id": "01KAP6FMP2T91ZMCSBNDJJKXBM",
+          "discordId": "test-user-123",
+          "source": "tip",
+          "metric": "tip_activity",
+          "value": 0.8,
+          "weight": 1,
+          "createdAt": "2025-11-22T16:31:16.674Z"
+        },
+        {
+          "id": "01KAP6FMP4HASZG89FNAB7ECQP",
+          "discordId": "test-user-123",
+          "source": "gameplay",
+          "metric": "pump_detected",
+          "value": -0.54,
+          "weight": 0.5,
+          "createdAt": "2025-11-22T16:31:16.676Z"
+        },
+        {
+          "id": "01KAP6FMP5CZZVKMSVP0DE6Q6Y",
+          "discordId": "test-user-123",
+          "source": "gameplay",
+          "metric": "cluster_detected",
+          "value": -0.1875,
+          "weight": 0.4,
+          "createdAt": "2025-11-22T16:31:16.678Z"
+        },
+        {
+          "id": "01KAP6MVNG1AY7DW3GZ1531Q89",
+          "discordId": "test-user-123",
+          "source": "tip",
+          "metric": "tip_activity",
+          "value": 0.8,
+          "weight": 1,
+          "createdAt": "2025-11-22T16:34:07.664Z"
+        },
+        {
+          "id": "01KAP6MVNJVQAX8AK7KP9Q91HG",
+          "discordId": "test-user-123",
+          "source": "gameplay",
+          "metric": "pump_detected",
+          "value": -0.54,
+          "weight": 0.5,
+          "createdAt": "2025-11-22T16:34:07.666Z"
+        },
+        {
+          "id": "01KAP6MVNKTGDG0HRZS95DDNPP",
+          "discordId": "test-user-123",
+          "source": "gameplay",
+          "metric": "cluster_detected",
+          "value": -0.1875,
+          "weight": 0.4,
+          "createdAt": "2025-11-22T16:34:07.667Z"
+        },
+        {
+          "id": "01KAP6NGEMT0XTH6607WTAS723",
+          "discordId": "test-user-123",
+          "source": "tip",
+          "metric": "tip_activity",
+          "value": 0.8,
+          "weight": 1,
+          "createdAt": "2025-11-22T16:34:28.949Z"
+        },
+        {
+          "id": "01KAP6NGEP1K5QARB292CR8R9M",
+          "discordId": "test-user-123",
+          "source": "gameplay",
+          "metric": "pump_detected",
+          "value": -0.54,
+          "weight": 0.5,
+          "createdAt": "2025-11-22T16:34:28.950Z"
+        },
+        {
+          "id": "01KAP6NGEWGPVRJS0NBM0ZQ0P4",
+          "discordId": "test-user-123",
+          "source": "gameplay",
+          "metric": "cluster_detected",
+          "value": -0.1875,
+          "weight": 0.4,
+          "createdAt": "2025-11-22T16:34:28.956Z"
+        }
+      ],
+      "createdAt": "2025-11-22T16:24:43.479Z",
+      "updatedAt": "2025-11-22T16:34:28.956Z"
+    }
+  }
+}

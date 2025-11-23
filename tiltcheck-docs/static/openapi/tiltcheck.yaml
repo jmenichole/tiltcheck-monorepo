@@ -1,0 +1,337 @@
+openapi: 3.1.0
+info:
+  title: TiltCheck API
+  version: 0.2.0
+  description: Core TiltCheck gameplay, session, CollectClock, fairness and governance endpoints.
+servers:
+  - url: https://api.tiltcheck.it.com
+tags:
+  - name: Trust
+    description: Trust & scoring telemetry
+  - name: Sessions
+    description: Analyzer session issuance & validation
+  - name: Gameplay
+    description: Spin, seed & gameplay history endpoints
+  - name: Fairness
+    description: Fairness / anomaly visibility & summaries
+  - name: CollectClock
+    description: Casino onboarding, provisional & pending requests
+  - name: Governance
+    description: Multi-sig proposal, signing and execution
+  - name: Admin
+    description: Administrative audit & integrity endpoints
+paths:
+  /trust/casino/{casinoId}:
+    get:
+      summary: Get trust metrics for a casino
+      tags: [Trust]
+      parameters:
+        - name: casinoId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Trust metrics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  casinoId:
+                    type: string
+                  latestTrustScore:
+                    type: number
+                  avgTrustScore:
+                    type: number
+  /analyze/session:
+    post:
+      summary: Create gameplay analysis session
+      tags: [Sessions]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                casinoId:
+                  type: string
+                userId:
+                  type: string
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sessionId:
+                    type: string
+                  expiresAt:
+                    type: integer
+  /api/spins:
+    get:
+      summary: List recent spins (latest first)
+      tags: [Gameplay]
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema: { type: integer, minimum: 1, maximum: 5000, default: 1000 }
+      responses:
+        '200':
+          description: Recent spins payload
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  spins:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Spin'
+  /api/spins/range:
+    get:
+      summary: List spins by timestamp range
+      tags: [Gameplay]
+      parameters:
+        - name: start
+          in: query
+          schema: { type: integer, description: Epoch ms start }
+        - name: end
+          in: query
+          schema: { type: integer, description: Epoch ms end }
+      responses:
+        '200':
+          description: Spins in range
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count: { type: integer }
+                  spins:
+                    type: array
+                    items: { $ref: '#/components/schemas/Spin' }
+  /api/seeds:
+    get:
+      summary: List seed rotation timestamps
+      tags: [Gameplay]
+      responses:
+        '200':
+          description: Seed rotations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  seeds:
+                    type: array
+                    items: { $ref: '#/components/schemas/Seed' }
+  /api/stats:
+    get:
+      summary: Gameplay aggregate stats
+      tags: [Gameplay]
+      responses:
+        '200':
+          description: Stats payload
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  casino: { type: string }
+                  spinCount: { type: integer }
+                  seedCount: { type: integer }
+  /api/collectclock/pending:
+    get:
+      summary: Pending casino requests & provisional usage
+      tags: [CollectClock]
+      security:
+        - sessionCookie: []
+      responses:
+        '200':
+          description: Pending casinos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pending:
+                    type: array
+                    items: { $ref: '#/components/schemas/PendingCasino' }
+                  count: { type: integer }
+  /api/admin/actions:
+    get:
+      summary: Recent administrative actions (audit log slice)
+      tags: [Admin]
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 5000, default: 100 }
+      responses:
+        '200':
+          description: Action list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count: { type: integer }
+                  actions:
+                    type: array
+                    items: { $ref: '#/components/schemas/AdminAction' }
+  /api/admin/actions/hash-verify:
+    get:
+      summary: Verify hash chain integrity for recent actions
+      tags: [Admin]
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 10, maximum: 10000, default: 5000 }
+      responses:
+        '200':
+          description: Verification result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total: { type: integer }
+                  validCount: { type: integer }
+                  tamperedCount: { type: integer }
+                  firstTamperedIndex: { type: integer, nullable: true }
+  /api/admin/multisig/propose:
+    post:
+      summary: Propose a multi-sig action
+      tags: [Governance]
+      security:
+        - sessionCookie: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [actionType, requiredSigners, signature, nonce]
+              properties:
+                actionType: { type: string }
+                payload: { type: object, additionalProperties: true }
+                requiredSigners:
+                  type: array
+                  items: { type: string }
+                signature: { type: string }
+                nonce: { type: string }
+      responses:
+        '200':
+          description: Proposal accepted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  id: { type: string }
+  /api/admin/multisig/sign:
+    post:
+      summary: Sign an existing multi-sig proposal
+      tags: [Governance]
+      security:
+        - sessionCookie: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [id, signature, nonce]
+              properties:
+                id: { type: string }
+                signature: { type: string }
+                nonce: { type: string }
+      responses:
+        '200':
+          description: Signature recorded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  status: { type: string }
+                  collected: { type: integer }
+                  required: { type: integer }
+  /api/admin/multisig/execute:
+    post:
+      summary: Execute a completed multi-sig (owner only)
+      tags: [Governance]
+      security:
+        - sessionCookie: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [id]
+              properties:
+                id: { type: string }
+      responses:
+        '200':
+          description: Execution success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+components:
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: tc_session
+  schemas:
+    Spin:
+      type: object
+      properties:
+        id: { type: string }
+        casino_id: { type: string }
+        ts: { type: integer }
+        bet: { type: number }
+        win: { type: number }
+        net_win: { type: number }
+        outcome: { type: string, nullable: true }
+    Seed:
+      type: object
+      properties:
+        casino_id: { type: string }
+        seed: { type: string }
+        submitted_by: { type: string }
+        ts: { type: integer }
+    PendingCasino:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        requestCount: { type: integer }
+        provisionalSessions: { type: integer }
+    AdminAction:
+      type: object
+      properties:
+        id: { type: string }
+        actionType: { type: string }
+        actorId: { type: string }
+        actorTier: { type: string }
+        createdAt: { type: integer }
+        prev_hash: { type: string }
+        record_hash: { type: string }
+        expected_hash: { type: string, nullable: true }
+        tampered: { type: boolean }

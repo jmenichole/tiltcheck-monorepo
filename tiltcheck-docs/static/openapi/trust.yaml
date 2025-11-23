@@ -1,0 +1,54 @@
+openapi: 3.1.0
+info:
+  title: TiltCheck Trust Engine API
+  version: 0.1.0
+  description: Placeholder spec for trust scoring and telemetry endpoints.
+servers:
+  - url: https://api.tiltcheck.it.com
+paths:
+  /trust/score/{casinoId}:
+    get:
+      summary: Get current trust score
+      parameters:
+        - name: casinoId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Trust score payload
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  casinoId: { type: string }
+                  latestTrustScore: { type: number }
+                  avgTrustScore: { type: number }
+  /trust/alerts/{casinoId}:
+    get:
+      summary: List recent trust alerts
+      parameters:
+        - name: casinoId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Alerts list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  casinoId: { type: string }
+                  alerts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        alertType: { type: string }
+                        severity: { type: string }
+                        timestamp: { type: integer }

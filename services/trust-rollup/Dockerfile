@@ -1,5 +1,5 @@
 # Build stage
-FROM node:20-alpine AS builder
+FROM node:20-alpine3.18 AS builder
 
 # Install pnpm (lockfileVersion 9 alignment)
 RUN npm install -g pnpm@9
@@ -29,7 +29,7 @@ RUN pnpm run -C packages/types build && \
     pnpm run -C services/trust-rollup build
 
 # Production stage
-FROM node:20-alpine
+FROM node:20-alpine3.18
 
 # Install pnpm (lockfileVersion 9 alignment)
 RUN npm install -g pnpm@9

@@ -1,0 +1,32 @@
+{
+  "name": "@tiltcheck/justthetip-bot",
+  "version": "0.1.0",
+  "description": "JustTheTip Discord bot - Non-custodial Solana tipping",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "clean": "rm -rf dist",
+    "deploy:commands": "tsx src/deploy-commands.ts",
+    "deploy:commands:dry-run": "tsx src/deploy-commands.ts --dry-run"
+  },
+  "dependencies": {
+    "@tiltcheck/types": "workspace:*",
+    "@tiltcheck/event-router": "workspace:*",
+    "@tiltcheck/discord-utils": "workspace:*",
+    "@tiltcheck/justthetip": "workspace:*",
+    "@tiltcheck/natural-language-parser": "workspace:*",
+    "@tiltcheck/esm-utils": "workspace:*",
+    "@tiltcheck/tiltcheck-core": "workspace:*",
+    "@solana/web3.js": "^1.87.6",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.5",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}

@@ -2,14 +2,14 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { JustTheTipModule } from '../src/index';
 import { swapDefaults } from '../src/config';
 import { pricingOracle } from '@tiltcheck/pricing-oracle';
-import { eventRouter } from '@tiltcheck/event-router';
+import { expectEvent } from '@tiltcheck/test-utils';
 
 let mod: JustTheTipModule;
 
 describe('JustTheTip swap config defaults', () => {
   beforeEach(() => {
     mod = new JustTheTipModule();
-    eventRouter.clearHistory();
+    // events auto-reset via global setup
     pricingOracle.setUsdPrice('SOL', 200);
     pricingOracle.setUsdPrice('USDC', 1);
     mod.registerWallet('senderCfg', 'senderWalletCfg', 'phantom');
@@ -18,6 +18,7 @@ describe('JustTheTip swap config defaults', () => {
 
   it('applies config defaults when opts not provided', async () => {
     const { quote } = await mod.initiateTokenTip('senderCfg', 'recipientCfg', 10, 'USDC');
+    expectEvent('swap.quote');
     expect(quote.slippageBps).toBe(swapDefaults.slippageBps);
     expect(quote.platformFeeBps).toBe(swapDefaults.platformFeeBps);
     expect(quote.networkFeeLamports).toBe(swapDefaults.networkFeeLamports);

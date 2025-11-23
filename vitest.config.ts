@@ -15,6 +15,10 @@ export default defineConfig({
       '@tiltcheck/discord-utils': r('packages/discord-utils/src/index.ts'),
       '@tiltcheck/database': r('packages/database/src/index.ts'),
       '@tiltcheck/suslink': r('modules/suslink/src/index.ts'),
+      '@tiltcheck/test-utils': r('packages/test-utils/src/index.ts'),
+      '@tiltcheck/collectclock': r('modules/collectclock/src/index.ts'),
+      '@tiltcheck/pricing-oracle': r('services/pricing-oracle/src/index.ts'),
+      '@tiltcheck/identity-core': r('packages/identity-core/dist/index.js'),
     },
   },
   test: {
@@ -54,20 +58,19 @@ export default defineConfig({
         '**/src/index.ts',
         '**/src/index.tsx',
         '**/*.d.ts',
-        // Exclude placeholder and app code until tests are added
+        // Exclude placeholder and app code until tests are added (apps only for now)
         'apps/**',
-        'modules/collectclock/**',
-        'modules/justthetip/**',
         'packages/database/**',
       ],
       thresholds: isCI
         ? {
-            lines: 60,
-            statements: 60,
-            functions: 50,
-            branches: 50,
+            lines: 65,
+            statements: 65,
+            functions: 55,
+            branches: 55,
           }
         : undefined,
     },
+    setupFiles: ['packages/test-utils/src/setup.ts']
   },
 });

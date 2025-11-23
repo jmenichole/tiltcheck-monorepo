@@ -265,7 +265,7 @@
     .tool-card:focus .tool-status.status-soon,
     .tool-card:focus-visible .tool-status.status-soon,
     .tool-card:focus-within .tool-status.status-soon {
-      box-shadow: 0 0 0 2px rgba(136,136,136,0.35), 0 0 14px rgba(136,136,136,0.45);
+      box-shadow: 0 0 0 2px rgba(136, 136, 136, 0.35), 0 0 14px rgba(136, 136, 136, 0.45);
       transform: translateY(-2px);
     }
 
@@ -389,6 +389,66 @@
     }
     @media (prefers-reduced-motion: reduce) {
       header nav a:focus-visible { box-shadow: 0 0 0 4px rgba(0,212,170,0.35); }
+    }
+
+    /* Waitlist Section */
+    .waitlist {
+      background: #181818;
+      padding: 60px 20px;
+      text-align: center;
+      border-radius: 12px;
+      margin: 40px 0;
+      box-shadow: 0 4px 32px rgba(0, 212, 170, 0.1);
+    }
+    
+    .waitlist h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #00d4aa;
+    }
+    
+    .waitlist p {
+      font-size: 1rem;
+      color: #ccc;
+      margin-bottom: 30px;
+    }
+    
+    .waitlist form {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .waitlist input[type="email"] {
+      padding: 12px 20px;
+      border: 2px solid #00d4aa;
+      border-radius: 8px;
+      background: #0a0a0a;
+      color: #fff;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    
+    .waitlist input[type="email"]:focus {
+      border-color: #00a8ff;
+      outline: none;
+    }
+    
+    .waitlist button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #00d4aa 0%, #00a8ff 100%);
+      color: #0a0a0a;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    
+    .waitlist button:hover {
+      transform: translateY(-2px);
     }
   </style>
 </head>
@@ -526,6 +586,10 @@
   (function(){
     const c = document.getElementById('tbChart').getContext('2d');
     const data = Array.from({length:40},(_,i)=>({x:i,y:60+Math.sin(i/3)*10+Math.random()*6}));
+    // Ensure y values are clamped to a valid range
+    data.forEach(point => {
+      point.y = Math.max(0, Math.min(100, point.y));
+    });
     function draw(){
       const w=c.canvas.width=c.canvas.clientWidth; const h=c.canvas.height=c.canvas.clientHeight;
       c.clearRect(0,0,w,h); c.strokeStyle='#222'; c.lineWidth=1; for(let i=1;i<4;i++){const y=(h/4)*i; c.beginPath(); c.moveTo(0,y); c.lineTo(w,y); c.stroke();}
@@ -660,6 +724,33 @@
       </div>
     </div>
   </section>
+
+  <section class="waitlist">
+    <div class="container">
+      <h2>Join the Waitlist</h2>
+      <p>Be the first to experience TiltCheck. Sign up below to stay updated!</p>
+      <form onsubmit="signUp(event)">
+        <input type="email" id="email" placeholder="Enter your email" required>
+        <button type="submit">Sign Up</button>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    const supabase = supabase.createClient('https://your-supabase-url.supabase.co', 'your-anon-key');
+
+    async function signUp(event) {
+      event.preventDefault();
+      const email = document.getElementById('email').value;
+      const { data, error } = await supabase.from('waitlist').insert([{ email }]);
+      if (error) {
+        alert('Error signing up: ' + error.message);
+      } else {
+        alert('Thank you for signing up!');
+        document.getElementById('email').value = '';
+      }
+    }
+  </script>
 
   <footer>
     <div class="container">

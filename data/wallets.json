@@ -1,0 +1,20 @@
+{
+  "sender": {
+    "userId": "sender",
+    "address": "SenderWalletAddress",
+    "type": "external",
+    "registeredAt": 1763728825335
+  },
+  "recipient": {
+    "userId": "recipient",
+    "address": "RecipientWalletAddress",
+    "type": "external",
+    "registeredAt": 1763728825335
+  },
+  "1153034319271559328": {
+    "userId": "1153034319271559328",
+    "address": "H8m2gN2GEPSbk4u6PoWa8JYkEZRJWH45DyWjbAm76uCX",
+    "type": "external",
+    "registeredAt": 1763778548873
+  }
+}

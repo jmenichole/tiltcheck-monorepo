@@ -1,0 +1,21 @@
+{
+  "casino": "stake.us",
+  "paytableBaseline": { "A": 0.08, "K": 0.07, "Q": 0.07, "J": 0.07 },
+  "expectedBonusPerSpins": 110,
+  "spins": [
+    {"ts": 1732060000000, "netWin": -1.0, "symbolFreq": {"A":2,"K":1}},
+    {"ts": 1732060010000, "netWin": -0.5, "symbolFreq": {"A":1,"Q":2}},
+    {"ts": 1732060020000, "netWin": 0.2, "symbolFreq": {"J":3}},
+    {"ts": 1732060030000, "netWin": 5.0, "symbolFreq": {"A":5,"K":2}, "featureTriggered": true},
+    {"ts": 1732060040000, "netWin": -0.8, "symbolFreq": {"Q":1,"J":2}},
+    {"ts": 1732060050000, "netWin": -0.6, "symbolFreq": {"A":1,"K":1}},
+    {"ts": 1732060060000, "netWin": -0.4, "symbolFreq": {"A":1,"J":1}}
+  ],
+  "seedRotations": [
+    {"ts": 1732059900000},
+    {"ts": 1732063600000}
+  ],
+  "bonusEvents": [
+    {"ts": 1732060030000, "type": "freespins"}
+  ]
+}

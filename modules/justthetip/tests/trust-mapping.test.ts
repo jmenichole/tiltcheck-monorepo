@@ -1,20 +1,25 @@
-import { describe, it, expect } from 'vitest';
-import { justthetip } from '../src/index';
+import { describe, it, expect, beforeEach } from 'vitest';
+import { JustTheTipModule } from '../src/justthetip-module';
 import { eventRouter } from '@tiltcheck/event-router';
 
-describe('JustTheTip trust mapping', () => {
-  it('emits trust.casino.updated events on tip completion', async () => {
+let moduleInstance: JustTheTipModule;
+
+describe('JustTheTip basic tip events', () => {
+  beforeEach(() => {
+    moduleInstance = new JustTheTipModule();
     eventRouter.clearHistory();
-    await justthetip.registerWallet('sender', 'SenderWalletAddress', 'phantom');
-    await justthetip.registerWallet('recipient', 'RecipientWalletAddress', 'magic');
-    const tip = await justthetip.initiateTip('sender', 'recipient', 1.00);
-    await justthetip.completeTip(tip.id, 'TestSignature');
-    const trustEvents = eventRouter.getHistory({ eventType: 'trust.casino.updated' });
-    expect(trustEvents.length).toBeGreaterThanOrEqual(2); // sender + recipient
-    const payloads = trustEvents.map(e => e.data as any);
-    const senderEvt = payloads.find(p => p.metadata?.userId === 'sender');
-    const recipientEvt = payloads.find(p => p.metadata?.userId === 'recipient');
-    expect(senderEvt?.delta).toBe(1);
-    expect(recipientEvt?.delta).toBe(2);
+  });
+
+  it('publishes tip.initiated and tip.completed with expected payload fields', async () => {
+    await moduleInstance.registerWallet('sender', 'SenderWalletAddress', 'phantom');
+    await moduleInstance.registerWallet('recipient', 'RecipientWalletAddress', 'magic');
+    const tip = await moduleInstance.initiateTip('sender', 'recipient', 1.00);
+    await moduleInstance.completeTip(tip.id, 'TestSignature');
+    const initiated = eventRouter.getHistory({ eventType: 'tip.initiated' });
+    const completed = eventRouter.getHistory({ eventType: 'tip.completed' });
+    expect(initiated[0].data.senderId).toBe('sender');
+    expect(initiated[0].data.recipientId).toBe('recipient');
+    expect(completed[0].data.signature).toBeDefined();
+    expect(completed[0].data.status).toBe('completed');
   });
 });

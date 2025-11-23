@@ -1,0 +1,93 @@
+name: Commands Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      bot:
+        description: "Target bot (discord|justthetip)"
+        required: true
+        default: "discord"
+      perform:
+        description: "Action (deploy|remove)"
+        required: true
+        default: "deploy"
+      removeName:
+        description: "Command name to remove (when perform=remove)"
+        required: false
+      dryRun:
+        description: "Dry run (true|false)"
+        required: true
+        default: "true"
+      guildId:
+        description: "Optional guild ID for scoped deployment"
+        required: false
+      discordToken:
+        description: "Discord bot token (discord bot)"
+        required: false
+      discordClientId:
+        description: "Discord application client ID (discord bot)"
+        required: false
+      justthetipToken:
+        description: "JustTheTip bot token (justthetip bot)"
+        required: false
+      justthetipClientId:
+        description: "JustTheTip application client ID (justthetip bot)"
+        required: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Enable Corepack
+        run: corepack enable && corepack prepare pnpm@9 --activate
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+      - name: Run deployment
+        shell: bash
+        run: |
+          set -euo pipefail
+          BOT="${{ inputs.bot }}"
+          PERFORM="${{ inputs.perform }}"
+          REMOVE_NAME="${{ inputs.removeName }}"
+          DRY="${{ inputs.dryRun }}"
+          GUILD="${{ inputs.guildId }}"
+          if [ "$BOT" = "discord" ]; then
+            if [ -z "${{ inputs.discordToken }}" ] || [ -z "${{ inputs.discordClientId }}" ]; then
+              echo "Missing discordToken or discordClientId input"; exit 1; fi
+            export DISCORD_TOKEN="${{ inputs.discordToken }}"
+            export DISCORD_CLIENT_ID="${{ inputs.discordClientId }}"
+          else
+            if [ -z "${{ inputs.justthetipToken }}" ] || [ -z "${{ inputs.justthetipClientId }}" ]; then
+              echo "Missing justthetipToken or justthetipClientId input"; exit 1; fi
+            export JUSTTHETIP_DISCORD_TOKEN="${{ inputs.justthetipToken }}"
+            export JUSTTHETIP_DISCORD_CLIENT_ID="${{ inputs.justthetipClientId }}"
+          fi
+          if [ "$BOT" = "discord" ]; then PKG="@tiltcheck/discord-bot"; else PKG="@tiltcheck/justthetip-bot"; fi
+          CMD="pnpm --filter $PKG deploy:commands"
+          if [ "$DRY" = "true" ]; then CMD="$CMD:dry-run"; fi
+          if [ -n "$GUILD" ]; then CMD="$CMD --guild $GUILD"; fi
+          if [ "$PERFORM" = "remove" ]; then
+            if [ -z "$REMOVE_NAME" ]; then echo "Missing removeName"; exit 1; fi
+            # use dry-run remove then actual deploy without dry-run to apply removal
+            pnpm --filter $PKG deploy:commands:dry-run --remove "$REMOVE_NAME" || true
+            if [ "$DRY" = "true" ]; then echo "Dry-run removal complete"; exit 0; fi
+            # deploy excluding command
+            pnpm --filter $PKG deploy:commands --remove "$REMOVE_NAME" ${GUILD:+--guild $GUILD}
+          else
+            $CMD
+          fi
+      - name: Upload artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: command-sync-${{ inputs.bot }}
+          path: |
+            apps/discord-bot/data/last-command-sync.json
+            apps/justthetip-bot/data/last-command-sync.json
+          if-no-files-found: warn

@@ -1,0 +1,15 @@
+creation_rules:
+  - paths_regex: 'secrets/.*\.(json|yaml|yml)$'
+    encrypted_regex: '^(data|token|secret|key|credentials)$'
+    age: ['age13zmr05wtqw0xyftvuqhlgruj6wug3hafpycmzfqvp5rmj6mrc5xsc0elaz']
+    suffix: '.enc'
+  - paths_regex: '.*\.secret\.env$'
+    age: ['age13zmr05wtqw0xyftvuqhlgruj6wug3hafpycmzfqvp5rmj6mrc5xsc0elaz']
+    encrypted_regex: '.*'
+
+# Usage:
+# 1. Generate age key: age-keygen -o age.agekey
+# 2. Add public key here replacing AGE_PUBLIC_KEY_PLACEHOLDER.
+# 3. Keep age.agekey out of git (ignored in .gitignore).
+# 4. Encrypt: sops -e secrets/service.yaml > secrets/service.yaml.enc
+# 5. Decrypt: sops -d secrets/service.yaml.enc > secrets/service.yaml

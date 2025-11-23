@@ -1,0 +1,36 @@
+site_name: TiltCheck Docs
+site_description: Trust, Fairness, and Analyzer Architecture
+repo_url: https://github.com/jmenichole/tiltcheck-monorepo
+edit_uri: ''
+nav:
+  - Intro: docs/0-intro.md
+  - Brand: docs/1-brand.md
+  - Founder Voice: docs/2-founder-voice.md
+  - Ecosystem Overview: docs/3-ecosystem-overview.md
+  - Tools Overview: docs/4-tools-overview.md
+  - Tool Specs (1): docs/5-tool-specs-1.md
+  - Tool Specs (2): docs/6-tool-specs-2.md
+  - Tool Specs (3): docs/7-tool-specs-3.md
+  - Trust Engines: docs/8-trust-engines.md
+  - Architecture: docs/9-architecture.md
+  - Data Models: docs/10-data-models.md
+  - System Prompts: docs/11-system-prompts.md
+  - APIs: docs/12-apis.md
+  - Discord Bots: docs/13-discord-bots.md
+  - Poker Module: docs/14-poker-module.md
+  - Future Roadmap: docs/15-future-roadmap.md
+  - Diagrams: docs/16-diagrams.md
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: blue grey
+      accent: indigo
+markdown_extensions:
+  - admonition
+  - codehilite
+  - footnotes
+  - toc:
+      permalink: true
+plugins:
+  - search

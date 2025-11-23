@@ -136,10 +136,13 @@ export function createServer(): any {
   // Static dashboard front-end
   const DASHBOARD_PUBLIC_DIR = path.join(process.cwd(), 'services', 'dashboard', 'public');
   if (fs.existsSync(DASHBOARD_PUBLIC_DIR)) {
-    app.use('/dashboard', express.static(DASHBOARD_PUBLIC_DIR, {}));
-    app.get('/dashboard', (_req, res) => {
-      res.sendFile(path.join(DASHBOARD_PUBLIC_DIR, 'index.html'));
-    });
+    const staticFn: any = (express as any).static;
+    if (typeof staticFn === 'function') {
+      app.use('/dashboard', staticFn(DASHBOARD_PUBLIC_DIR, {}));
+      app.get('/dashboard', (_req, res) => {
+        res.sendFile(path.join(DASHBOARD_PUBLIC_DIR, 'index.html'));
+      });
+    }
   }
   // Gauge config file path (publicly served static copy + API mutation capability)
   const GAUGE_CONFIG_PATH = path.join(process.cwd(), 'services', 'dashboard', 'public', 'config', 'gauge-config.json');
@@ -176,6 +179,18 @@ export function createServer(): any {
       return next;
     } catch(err){ return current; }
   }
+
+  // QualifyFirst metrics proxy/export for dashboard
+  app.get('/api/qualifyfirst/metrics', async (_req, res) => {
+    try {
+      const qfPort = process.env.QUALIFYFIRST_API_PORT || 6105;
+      const response = await fetch(`http://localhost:${qfPort}/qualifyfirst/metrics`);
+      const data = await response.json();
+      res.json(data);
+    } catch (e: any) {
+      res.status(503).json({ ok: false, error: 'QualifyFirst API unavailable', message: e?.message });
+    }
+  });
 
   // SSE endpoint
   app.get('/events', (req, res) => {
@@ -240,18 +255,19 @@ export function createServer(): any {
   app.get('/api/config/gauges', (_req: any, res: any) => {
     res.json({ config: readGaugeConfig() });
   });
-  app.patch('/api/config/gauges', (req: any, res: any) => {
-    // Simple token gating (future multi-tenant role system placeholder)
-    const token = process.env.GAUGE_ADMIN_TOKEN || '';
-    if(token){
-      const provided = (req.headers['x-admin-token'] || '').toString();
-      if(provided !== token){
-        return res.status(403).json({ ok:false, error:'forbidden' });
+  if (typeof (app as any).patch === 'function') {
+    app.patch('/api/config/gauges', (req: any, res: any) => {
+      const token = process.env.GAUGE_ADMIN_TOKEN || '';
+      if(token){
+        const provided = (req.headers['x-admin-token'] || '').toString();
+        if(provided !== token){
+          return res.status(403).json({ ok:false, error:'forbidden' });
+        }
       }
-    }
-    const updated = writeGaugeConfig(req.body || {});
-    res.json({ ok:true, config: updated });
-  });
+      const updated = writeGaugeConfig(req.body || {});
+      res.json({ ok:true, config: updated });
+    });
+  }
 
   app.get('/api/severity', (_req, res) => {
     res.json({

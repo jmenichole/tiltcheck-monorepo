@@ -1,0 +1,12 @@
+{
+  "name": "TiltCheck",
+  "short_name": "TiltCheck",
+  "description": "Degen Transparency Tools",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#00d4aa",
+  "icons": [
+    { "src": "/assets/logo/favicon-white.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

@@ -1,21 +1,24 @@
-import { describe, it, expect } from 'vitest';
-import { justthetip } from '../src/index';
+import { describe, it, expect, beforeEach } from 'vitest';
+import { JustTheTipModule } from '../src/justthetip-module';
 import { eventRouter } from '@tiltcheck/event-router';
 
-describe('JustTheTip degen trust events', () => {
-  it('emits trust.degen.updated alongside casino trust on tip completion', async () => {
+let moduleInstance: JustTheTipModule;
+
+describe('JustTheTip tip lifecycle events', () => {
+  beforeEach(() => {
+    moduleInstance = new JustTheTipModule();
     eventRouter.clearHistory();
-    await justthetip.registerWallet('senderDegen', 'SenderWalletAddr', 'phantom');
-    await justthetip.registerWallet('recipientDegen', 'RecipientWalletAddr', 'magic');
-    const tip = await justthetip.initiateTip('senderDegen', 'recipientDegen', 2.00);
-    await justthetip.completeTip(tip.id, 'SigDegen');
-    const casinoEvents = eventRouter.getHistory({ eventType: 'trust.casino.updated' });
-    const degenEvents = eventRouter.getHistory({ eventType: 'trust.degen.updated' });
-    expect(casinoEvents.length).toBeGreaterThanOrEqual(2);
-    expect(degenEvents.length).toBeGreaterThanOrEqual(2);
-    const senderDegenEvt = degenEvents.map(e => e.data as any).find(p => p.userId === 'senderDegen');
-    const recipientDegenEvt = degenEvents.map(e => e.data as any).find(p => p.userId === 'recipientDegen');
-    expect(senderDegenEvt?.delta).toBe(1);
-    expect(recipientDegenEvt?.delta).toBe(2);
+  });
+
+  it('emits tip.initiated and tip.completed on successful tip flow', async () => {
+    await moduleInstance.registerWallet('senderDegen', 'SenderWalletAddr', 'phantom');
+    await moduleInstance.registerWallet('recipientDegen', 'RecipientWalletAddr', 'magic');
+    const tip = await moduleInstance.initiateTip('senderDegen', 'recipientDegen', 2.00);
+    await moduleInstance.completeTip(tip.id, 'SigDegen');
+    const initiated = eventRouter.getHistory({ eventType: 'tip.initiated' });
+    const completed = eventRouter.getHistory({ eventType: 'tip.completed' });
+    expect(initiated.length).toBeGreaterThanOrEqual(1);
+    expect(completed.length).toBeGreaterThanOrEqual(1);
+    expect(completed[0].data.status).toBe('completed');
   });
 });

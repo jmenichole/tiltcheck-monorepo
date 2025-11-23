@@ -6,6 +6,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { eventRouter } from '@tiltcheck/event-router';
 import { registerExternalWallet, getWallet, hasWallet, removeWallet, clearWallets } from './wallet-manager.js';
+import { pricingOracle } from '@tiltcheck/pricing-oracle';
+import { swapDefaults } from './config.js';
 
 export interface TipInitiated {
   id: string;
@@ -35,6 +37,10 @@ export interface DisconnectResult {
 }
 
 export class JustTheTipModule {
+  constructor() {
+    // Ensure isolated wallet state per test instance
+    clearWallets();
+  }
   private pendingTips: Map<string, TipInitiated[]> = new Map();
   private allTips: Map<string, TipInitiated> = new Map();
   private minUsd = 0.10;
@@ -151,12 +157,13 @@ export class JustTheTipModule {
     const senderWallet = getWallet(senderId);
     const recipientWallet = hasWallet(recipientId) ? getWallet(recipientId) : undefined;
 
+    const solConversion = currency === 'USD' ? (pricingOracle.getUsdPrice('SOL') ? amount / pricingOracle.getUsdPrice('SOL') : undefined) : amount;
     const tip: TipInitiated = {
       id: uuidv4(),
       senderId,
       recipientId,
       usdAmount: currency === 'USD' ? amount : 0,
-      solAmount: currency === 'SOL' ? amount : undefined,
+      solAmount: solConversion,
       status: 'pending',
       reference: uuidv4(),
       senderWallet: senderWallet?.address,
@@ -238,5 +245,81 @@ export class JustTheTipModule {
     this.pendingTips.clear();
     this.allTips.clear();
     clearWallets();
+  }
+
+  // --- Token tipping (USD-stable token -> SOL simulated swap) ---
+  private quotes: Map<string, any> = new Map();
+
+  async initiateTokenTip(
+    senderId: string,
+    recipientId: string,
+    amountUsd: number,
+    inputMint: string,
+    opts?: Partial<{ slippageBps: number; platformFeeBps: number; networkFeeLamports: number }>
+  ): Promise<{ tip: TipInitiated; quote: any }> {
+    if (!hasWallet(senderId)) throw new Error('❌ Sender wallet not registered');
+    if (!hasWallet(recipientId)) throw new Error('❌ Recipient wallet not registered');
+
+    const solPrice = pricingOracle.getUsdPrice('SOL') || 0;
+    const estimatedOutputAmount = solPrice ? amountUsd / solPrice : 0;
+    const slippageBps = opts?.slippageBps ?? swapDefaults.slippageBps;
+    const platformFeeBps = opts?.platformFeeBps ?? swapDefaults.platformFeeBps;
+    const networkFeeLamports = opts?.networkFeeLamports ?? swapDefaults.networkFeeLamports;
+
+    const minOutputAmount = estimatedOutputAmount * (1 - slippageBps / 10_000);
+    const platformFee = estimatedOutputAmount * platformFeeBps / 10_000;
+    const networkFeeSol = networkFeeLamports / 1_000_000_000; // LAMPORTS_PER_SOL simplified constant
+    const finalOutputAfterFees = Math.max(estimatedOutputAmount - platformFee - networkFeeSol, 0);
+
+    const quote = {
+      id: uuidv4(),
+      inputMint: inputMint,
+      outputMint: 'SOL',
+      amountUsd,
+      estimatedOutputAmount,
+      minOutputAmount,
+      platformFeeBps,
+      slippageBps,
+      networkFeeLamports,
+      platformFeeSol: platformFee,
+      finalOutputAfterFees,
+      createdAt: Date.now()
+    };
+    this.quotes.set(quote.id, quote);
+    void eventRouter.publish('swap.quote', 'justthetip', quote);
+
+    const tip: TipInitiated = {
+      id: uuidv4(),
+      senderId,
+      recipientId,
+      usdAmount: amountUsd,
+      solAmount: estimatedOutputAmount,
+      status: 'pending',
+      reference: uuidv4(),
+      senderWallet: getWallet(senderId)?.address,
+      recipientWallet: getWallet(recipientId)?.address,
+      createdAt: Date.now(),
+    };
+    this.allTips.set(tip.id, tip);
+    return { tip, quote };
+  }
+
+  async executeSwap(senderId: string, quoteId: string): Promise<any> {
+    if (!hasWallet(senderId)) throw new Error('❌ Sender wallet not registered');
+    const quote = this.quotes.get(quoteId);
+    if (!quote) throw new Error('Quote not found');
+    // Simulated loss of 0.5% (50 bps)
+    const simulatedLossBps = 50;
+    const realizedOutput = quote.estimatedOutputAmount * (1 - simulatedLossBps / 10_000);
+    const failed = simulatedLossBps > quote.slippageBps;
+    if (failed) {
+      const result = { id: quote.id, status: 'failed', reason: 'Slippage exceeded tolerance' };
+      void eventRouter.publish('swap.failed', 'justthetip', result);
+      return result;
+    }
+    const finalOutputAfterFees = Math.max(realizedOutput - (quote.platformFeeSol) - (quote.networkFeeLamports / 1_000_000_000), 0);
+    const result = { id: quote.id, status: 'completed', realizedOutput, finalOutputAfterFees };
+    void eventRouter.publish('swap.completed', 'justthetip', result);
+    return result;
   }
 }

@@ -1,0 +1,37 @@
+{
+  "casinos": {
+    "crowncoins": {
+      "casinoId": "crowncoins",
+      "addedAt": 1732236000000,
+      "addedBy": "1153034319271559328",
+      "latestTrustScore": null,
+      "avgTrustScore": null,
+      "alerts": 0,
+      "criticalAlerts": 0,
+      "firstSeen": 1732236000000,
+      "lastSnapshot": null
+    }
+  },
+  "pendingAddRequests": [
+    {
+      "casinoId": "modo.us",
+      "requestedBy": "1153034319271559328",
+      "ts": 1763756550260,
+      "count": 1
+    },
+    {
+      "casinoId": "modo",
+      "requestedBy": "1153034319271559328",
+      "ts": 1763767881324,
+      "count": 1,
+      "provisionalSessions": 0
+    },
+    {
+      "casinoId": "gamba",
+      "requestedBy": "1153034319271559328",
+      "ts": 1763767895090,
+      "count": 1,
+      "provisionalSessions": 0
+    }
+  ]
+}

@@ -267,7 +267,7 @@ export function flushTrustRollups() {
   publishRollups();
 }
 
-let ready = true; // Service sets ready immediately after subscriptions
+const ready = true; // Service sets ready immediately after subscriptions
 console.log('[TrustRollup] Service initialized');
 
 // Start external casino verification scheduler
@@ -280,39 +280,37 @@ if (process.env.ENABLE_CASINO_VERIFICATION !== 'false') {
 
 // Lightweight health server
 const HEALTH_PORT = process.env.TRUST_ROLLUP_HEALTH_PORT || '8082';
-http.createServer((req, res) => {
-  if (req.url === '/health') {
-    const body = JSON.stringify({ service: 'trust-rollup', ready, windowStart, domainKeys: Object.keys(domainAgg).length, casinoKeys: Object.keys(casinoAgg).length });
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(body);
-    return;
-  }
-  if (req.url === '/api/trust/casinos') {
-    const snapshots = getCasinoSnapshots();
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ data: snapshots, updatedAt: Date.now() }));
-    return;
-  }
-  if (req.url?.startsWith('/api/trust/stream')) {
-    // SSE
-    res.writeHead(200, {
-      'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache',
-      Connection: 'keep-alive'
-    });
-    res.write(': connected\n\n');
-    sseClients.add(res);
-    // Initial push
-    res.write(`data: ${JSON.stringify(getCasinoSnapshots())}\n\n`);
-    req.on('close', () => {
-      sseClients.delete(res);
-    });
-    return;
-  }
-  res.writeHead(404); res.end();
-}).listen(parseInt(HEALTH_PORT, 10), () => {
-  console.log(`[TrustRollup] Health server listening on ${HEALTH_PORT}`);
-});
+if (!process.env.VITEST && process.env.NODE_ENV !== 'test') {
+  http.createServer((req, res) => {
+    if (req.url === '/health') {
+      const body = JSON.stringify({ service: 'trust-rollup', ready, windowStart, domainKeys: Object.keys(domainAgg).length, casinoKeys: Object.keys(casinoAgg).length });
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(body);
+      return;
+    }
+    if (req.url === '/api/trust/casinos') {
+      const snapshots = getCasinoSnapshots();
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ data: snapshots, updatedAt: Date.now() }));
+      return;
+    }
+    if (req.url?.startsWith('/api/trust/stream')) {
+      res.writeHead(200, {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        Connection: 'keep-alive'
+      });
+      res.write(': connected\n\n');
+      sseClients.add(res);
+      res.write(`data: ${JSON.stringify(getCasinoSnapshots())}\n\n`);
+      req.on('close', () => { sseClients.delete(res); });
+      return;
+    }
+    res.writeHead(404); res.end();
+  }).listen(parseInt(HEALTH_PORT, 10), () => {
+    console.log(`[TrustRollup] Health server listening on ${HEALTH_PORT}`);
+  });
+}
 
 // Persist snapshots to shared /app/data volume (works in Docker & local)
 const SNAPSHOT_DIR = process.env.TRUST_ROLLUP_SNAPSHOT_DIR || path.join('/app', 'data');

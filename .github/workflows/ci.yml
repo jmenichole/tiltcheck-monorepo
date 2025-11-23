@@ -35,6 +35,8 @@ jobs:
         run: pnpm a11y:audit
       - name: Run tests (Vitest)
         run: pnpm test
+      - name: QualifyFirst module tests
+        run: pnpm test --filter @tiltcheck/qualifyfirst
       - name: Landing server health check
         run: |
           cd services/landing

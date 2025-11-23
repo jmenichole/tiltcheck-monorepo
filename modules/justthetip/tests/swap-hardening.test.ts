@@ -1,14 +1,14 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { JustTheTipModule } from '../src/index';
-import { eventRouter } from '@tiltcheck/event-router';
 import { pricingOracle } from '@tiltcheck/pricing-oracle';
+import { expectEvent } from '@tiltcheck/test-utils';
 
 let mod: JustTheTipModule;
 
 describe('JustTheTip Swap Hardening', () => {
   beforeEach(() => {
     mod = new JustTheTipModule();
-    eventRouter.clearHistory();
+    // events auto-reset via global setup
     // Ensure deterministic prices
     pricingOracle.setUsdPrice('SOL', 200);
     pricingOracle.setUsdPrice('USDC', 1);
@@ -36,9 +36,7 @@ describe('JustTheTip Swap Hardening', () => {
     expect(quote.finalOutputAfterFees).toBeLessThan(quote.estimatedOutputAmount);
 
     // Event published
-    const events = eventRouter.getHistory({ eventType: 'swap.quote' });
-    expect(events.length).toBeGreaterThan(0);
-    expect(events[0].data.minOutputAmount).toBeDefined();
+    expectEvent('swap.quote', e => e.data.minOutputAmount !== undefined);
   });
 
   it('completes swap with recalculated fee deductions', async () => {
@@ -53,9 +51,7 @@ describe('JustTheTip Swap Hardening', () => {
     expect(execution.realizedOutput).toBeLessThanOrEqual(quote.estimatedOutputAmount);
     expect(execution.finalOutputAfterFees).toBeLessThan(execution.realizedOutput);
 
-    const completedEvents = eventRouter.getHistory({ eventType: 'swap.completed' });
-    expect(completedEvents.length).toBeGreaterThan(0);
-    expect(completedEvents[0].data.finalOutputAfterFees).toBeDefined();
+    expectEvent('swap.completed', e => e.data.finalOutputAfterFees !== undefined);
   });
 
   it('emits swap.failed when slippage exceeds tolerance', async () => {
@@ -72,8 +68,6 @@ describe('JustTheTip Swap Hardening', () => {
       throw new Error('Expected swap to fail due to slippage breach');
     }
     expect(result.status).toBe('failed');
-    const failedEvents = eventRouter.getHistory({ eventType: 'swap.failed' });
-    expect(failedEvents.length).toBeGreaterThan(0);
-    expect(failedEvents[0].data.reason).toBe('Slippage exceeded tolerance');
+    expectEvent('swap.failed', e => e.data.reason === 'Slippage exceeded tolerance');
   });
 });

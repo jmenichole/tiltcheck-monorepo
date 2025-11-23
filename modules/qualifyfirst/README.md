@@ -14,28 +14,35 @@ Deterministic survey pre-screening & routing heuristics for TiltCheck.
 
 ## API (Internal Functions)
 ```ts
-predictSurveyMatch(user: UserProfile, survey: SurveyMeta): MatchProbability
-routeSurveys(user: UserProfile, surveys: SurveyMeta[]): RouteResult
-explainScreenOut(user: UserProfile, survey: SurveyMeta): string[]
 attachPublisher(p: EventPublisher)
 publishRouteResult(route: RouteResult)
 publishMatch(result: MatchProbability)
 ```
 
+- Runtime-adjustable weights (see `setWeights`, `overrideWeights`)
+- Detailed breakdown available via `predictSurveyMatch(user, survey, true)`
 ## Types
 ```ts
 interface UserProfile { id: string; country?: string; age?: number; tags?: string[]; hoursActiveLast7d?: number; completionRate?: number; }
-interface SurveyMeta { id: string; country?: string; minAge?: number; maxAge?: number; requiredTags?: string[]; estMinutes?: number; payoutUsd?: number; screenOutRate?: number; }
+import { predictSurveyMatch, routeSurveys, attachPublisher, setWeights, getWeights } from '@tiltcheck/qualifyfirst';
 interface MatchProbability { surveyId: string; userId: string; probability: number; score: number; reasons: string[]; riskFlags: string[]; }
 interface RouteResult { userId: string; generatedAt: number; matches: MatchProbability[]; }
 ```
 
 ## Event Model
-- Emits `survey.match.predicted` for single predictions.
-- Emits `survey.route.generated` for batch routing decisions.
+// Optional detailed breakdown
+const match = predictSurveyMatch(userProfile, surveyMeta, true);
+console.log(match.breakdown);
+// Events are tagged with a monotonic `weightVersion` for experiment analysis.
+// Publish payloads:
+// survey.match.predicted => { weightVersion, ts, match }
+// survey.route.generated => { weightVersion, ts, route }
 
 ## Heuristic Weighting (Initial)
 | Factor | Weight | Notes |
+// Adjust weights at runtime (e.g., after monitoring performance)
+setWeights({ minScoreThreshold: 25 });
+console.log('Active weights:', getWeights());
 |--------|--------|-------|
 | Country match | 20 | +full if match/unspecified |
 | Age range | 10 | + if within range |
@@ -56,11 +63,14 @@ interface RouteResult { userId: string; generatedAt: number; matches: MatchProba
 
 ## Usage Example
 ```ts
-import { predictSurveyMatch, routeSurveys } from '@tiltcheck/qualifyfirst';
+import { predictSurveyMatch, routeSurveys, getMetrics, getRollingMetrics, currentWeightVersion } from '@tiltcheck/qualifyfirst';
 const user = { id: 'u1', country: 'US', age: 29, tags: ['crypto','gaming'], completionRate: 72, hoursActiveLast7d: 8 };
 const surveys = [ { id: 's1', country: 'US', requiredTags: ['gaming'], screenOutRate: 0.4 }, { id: 's2', requiredTags: ['finance'], screenOutRate: 0.7 } ];
 const route = routeSurveys(user, surveys);
 console.log(route.matches);
+console.log('Weight version', currentWeightVersion());
+console.log('Aggregate metrics', getMetrics());
+console.log('Rolling window metrics', getRollingMetrics());
 ```
 
 ## Build

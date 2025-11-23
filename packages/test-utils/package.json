@@ -1,0 +1,21 @@
+{
+  "name": "@tiltcheck/test-utils",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "description": "Shared testing utilities: event factories, assertions, setup hooks",
+  "scripts": {
+    "build": "echo 'test-utils: build skipped (source consumed directly by Vitest)'",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/uuid": "^11.0.0",
+    "typescript": "^5.3.0"
+  }
+}

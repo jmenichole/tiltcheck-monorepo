@@ -253,7 +253,7 @@ app.post('/api/casinos/bulk', authenticateAPI, async (req, res) => {
     
     const existingCasinos = await loadCasinos();
     let updatedCount = 0;
-    let errors = [];
+    const errors = [];
     
     for (const casinoData of newCasinos) {
       try {

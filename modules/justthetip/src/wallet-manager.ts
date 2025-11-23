@@ -6,6 +6,7 @@
 
 import { Connection, PublicKey, LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { eventRouter } from '@tiltcheck/event-router';
+import { processPendingTips } from './tip-engine.js';
 
 const SOLANA_RPC_URL = process.env.SOLANA_RPC_URL || 'https://api.mainnet-beta.solana.com';
 const connection = new Connection(SOLANA_RPC_URL, 'confirmed');
@@ -50,6 +51,9 @@ export function registerExternalWallet(userId: string, address: string): WalletI
   });
 
   console.log(`[JustTheTip] External wallet registered: ${userId} → ${address}`);
+
+  // Process any pending tips for this user
+  void processPendingTips(userId);
 
   return walletInfo;
 }

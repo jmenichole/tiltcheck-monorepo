@@ -51,8 +51,8 @@ export function parseAmount(input: string): ParseResult<ParsedAmount> {
   }
 
   // Determine currency
-  let currency: 'SOL' | 'USD' = 'SOL'; // Default to SOL
-  let confidence = 0.7; // Medium confidence for implicit SOL
+  let currency: 'SOL' | 'USD' = 'USD'; // Default to USD for user-friendly amounts
+  let confidence = 0.8; // Medium-high confidence for implicit USD
 
   if (USD_PATTERNS.test(trimmed)) {
     currency = 'USD';
