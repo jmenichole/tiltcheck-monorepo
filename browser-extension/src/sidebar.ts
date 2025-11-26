@@ -3,7 +3,7 @@
  * Features: Discord auth, vault, dashboard, wallet, session export, premium upgrades
  */
 
-const API_BASE = 'https://tiltcheck.it.com/api';
+const API_BASE = (typeof window !== 'undefined' && (window as any).API_BASE) ? (window as any).API_BASE : 'https://tiltcheck.it.com/api';
 let authToken: string | null = null;
 let showSettings = false;
 let apiKeys: any = {
