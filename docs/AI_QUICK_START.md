@@ -9,7 +9,7 @@ Add natural language command parsing to TiltCheck Discord bot in 30 minutes.
 
 ### Verify AI Package Built
 ```bash
-cd /Users/fullsail/Desktop/tiltcheck-monorepo/tiltcheck-monorepo
+cd $(git rev-parse --show-toplevel)
 ls -la packages/ai-service/dist/
 # Should see: index.js, nlu.js, smart-help.js, *.d.ts files
 ```
