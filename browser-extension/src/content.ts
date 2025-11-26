@@ -22,12 +22,12 @@
  * - browser-extension/server/api.js (TILTGUARD_API_PORT environment variable)
  */
 const API_SERVER_PORT = '3333';
-const EXCLUDED_DOMAIN_PATTERNS = ['discord.com'];
+const EXCLUDED_DOMAIN_SUBSTRINGS = ['discord.com'];
 
 // Early exit if on excluded domain or localhost API - BEFORE any imports or code runs
 const hostname = window.location.hostname;
 const isExcludedDomain = 
-  EXCLUDED_DOMAIN_PATTERNS.some(pattern => hostname.includes(pattern)) ||
+  EXCLUDED_DOMAIN_SUBSTRINGS.some(substring => hostname.includes(substring)) ||
   (hostname === 'localhost' && window.location.port === API_SERVER_PORT);
 
 if (isExcludedDomain) {

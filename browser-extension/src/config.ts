@@ -26,8 +26,9 @@ export const ANALYZER_WS_URL = 'ws://localhost:7071';
 
 /**
  * Excluded Domains Configuration
- * Domains that should be excluded from content script injection.
+ * Domain substrings that should be excluded from content script injection.
+ * Uses substring matching (hostname.includes(substring)).
  * 
  * Also duplicated in content.ts for early exit check.
  */
-export const EXCLUDED_DOMAINS = ['discord.com'];
+export const EXCLUDED_DOMAIN_SUBSTRINGS = ['discord.com'];
