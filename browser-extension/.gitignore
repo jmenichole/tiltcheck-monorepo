@@ -1,4 +1,4 @@
 .vercel
 
-# SSL validation and PKI files should be generated during deployment
-public/.well-known/
+# SSL validation files should be generated during deployment
+.well-known/
