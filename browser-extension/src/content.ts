@@ -12,11 +12,23 @@
  * - Real-world spending reminders
  */
 
-// Early exit if on Discord or localhost API - BEFORE any imports or code runs
+/**
+ * Configuration constants for early exit check - MUST be defined before imports.
+ * These are intentionally duplicated from config.ts because this code runs before
+ * any ES module imports to prevent loading resources on excluded domains.
+ * 
+ * When updating, also update the corresponding values in:
+ * - browser-extension/src/config.ts
+ * - browser-extension/server/api.js (TILTGUARD_API_PORT environment variable)
+ */
+const API_SERVER_PORT = '3333';
+const EXCLUDED_DOMAIN_SUBSTRINGS = ['discord.com'];
+
+// Early exit if on excluded domain or localhost API - BEFORE any imports or code runs
 const hostname = window.location.hostname;
 const isExcludedDomain = 
-  hostname.includes('discord.com') ||
-  (hostname === 'localhost' && window.location.port === '3333');
+  EXCLUDED_DOMAIN_SUBSTRINGS.some(substring => hostname.includes(substring)) ||
+  (hostname === 'localhost' && window.location.port === API_SERVER_PORT);
 
 if (isExcludedDomain) {
   console.log('[TiltGuard] Skipping - excluded domain:', hostname);
@@ -28,10 +40,8 @@ if (isExcludedDomain) {
 import { CasinoDataExtractor, AnalyzerClient } from './extractor.js';
 import { TiltDetector } from './tilt-detector.js';
 import { CasinoLicenseVerifier } from './license-verifier.js';
+import { ANALYZER_WS_URL } from './config.js';
 import './sidebar.js';
-
-// Configuration
-const ANALYZER_WS_URL = 'ws://localhost:7071';
 
 // State
 let extractor: CasinoDataExtractor | null = null;
