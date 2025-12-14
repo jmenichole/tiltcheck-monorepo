@@ -92,8 +92,8 @@ importers:
         specifier: ^4.18.2
         version: 4.22.1
       express-rate-limit:
-        specifier: ^7.1.5
-        version: 7.5.1(express@4.22.1)
+        specifier: ^8.2.1
+        version: 8.2.1(express@4.22.1)
       helmet:
         specifier: ^7.1.0
         version: 7.2.0
@@ -671,10 +671,6 @@ importers:
       '@tiltcheck/types':
         specifier: workspace:*
         version: link:../../packages/types
-    optionalDependencies:
-      '@tiltcheck/ai-client':
-        specifier: workspace:*
-        version: link:../../packages/ai-client
     devDependencies:
       typescript:
         specifier: ^5.3.0
@@ -682,6 +678,10 @@ importers:
       vitest:
         specifier: ^1.0.0
         version: 1.6.1(@types/node@24.10.1)(jsdom@27.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))
+    optionalDependencies:
+      '@tiltcheck/ai-client':
+        specifier: workspace:*
+        version: link:../../packages/ai-client
 
   modules/triviadrops:
     dependencies:
@@ -3473,8 +3473,8 @@ packages:
     resolution: {integrity: sha512-VyhnebXciFV2DESc+p6B+y0LjSm0krU4OgJN44qFAhBY0TJ+1V61tYD2+wHusZ6F9n5K+vl8k0sTy7PEfV4qpg==}
     engines: {node: '>=16.17'}
 
-  express-rate-limit@7.5.1:
-    resolution: {integrity: sha512-7iN8iPMDzOMHPUYllBEsQdWVB6fPDMPqwjBaFrgr4Jgr/+okjvzAy+UHlYYL/Vs0OsOrMkwS6PJDkFlJwoxUnw==}
+  express-rate-limit@8.2.1:
+    resolution: {integrity: sha512-PCZEIEIxqwhzw4KF0n7QF4QqruVTcF73O5kFKUnGOyjbCCgizBBiFaYpd/fnBLUMPw/BWw9OsiN7GgrNYr7j6g==}
     engines: {node: '>= 16'}
     peerDependencies:
       express: '>= 4.11'
@@ -7714,9 +7714,10 @@ snapshots:
       signal-exit: 4.1.0
       strip-final-newline: 3.0.0
 
-  express-rate-limit@7.5.1(express@4.22.1):
+  express-rate-limit@8.2.1(express@4.22.1):
     dependencies:
       express: 4.22.1
+      ip-address: 10.0.1
 
   express-rate-limit@8.2.1(express@4.22.1):
     dependencies:
