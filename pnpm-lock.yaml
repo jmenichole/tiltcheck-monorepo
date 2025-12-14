@@ -671,10 +671,6 @@ importers:
       '@tiltcheck/types':
         specifier: workspace:*
         version: link:../../packages/types
-    optionalDependencies:
-      '@tiltcheck/ai-client':
-        specifier: workspace:*
-        version: link:../../packages/ai-client
     devDependencies:
       typescript:
         specifier: ^5.3.0
@@ -682,12 +678,16 @@ importers:
       vitest:
         specifier: ^1.0.0
         version: 1.6.1(@types/node@24.10.1)(jsdom@27.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))
+    optionalDependencies:
+      '@tiltcheck/ai-client':
+        specifier: workspace:*
+        version: link:../../packages/ai-client
 
   modules/triviadrops:
     dependencies:
       '@ai-sdk/openai':
         specifier: ^2.0.69
-        version: 2.0.76(zod@3.25.76)
+        version: 2.0.76(zod@4.1.13)
       '@tiltcheck/ai-client':
         specifier: workspace:*
         version: link:../../packages/ai-client
@@ -696,7 +696,7 @@ importers:
         version: link:../../packages/types
       ai:
         specifier: ^5.0.97
-        version: 5.0.106(zod@3.25.76)
+        version: 5.0.106(zod@4.1.13)
 
   packages/ai-client:
     devDependencies:
@@ -766,8 +766,8 @@ importers:
   packages/config:
     dependencies:
       zod:
-        specifier: ^3.22.4
-        version: 3.25.76
+        specifier: ^4.1.13
+        version: 4.1.13
     devDependencies:
       typescript:
         specifier: ^5.4.0
@@ -5385,29 +5385,32 @@ packages:
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
+  zod@4.1.13:
+    resolution: {integrity: sha512-AvvthqfqrAhNH9dnfmrfKzX5upOdjUVJYFqNSlkmGf64gRaTzlPwz99IHYnVs28qYAybvAlBV+H7pn0saFY4Ig==}
+
 snapshots:
 
   '@acemir/cssom@0.9.24': {}
 
-  '@ai-sdk/gateway@2.0.18(zod@3.25.76)':
+  '@ai-sdk/gateway@2.0.18(zod@4.1.13)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.18(zod@3.25.76)
+      '@ai-sdk/provider-utils': 3.0.18(zod@4.1.13)
       '@vercel/oidc': 3.0.5
-      zod: 3.25.76
+      zod: 4.1.13
 
-  '@ai-sdk/openai@2.0.76(zod@3.25.76)':
+  '@ai-sdk/openai@2.0.76(zod@4.1.13)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.18(zod@3.25.76)
-      zod: 3.25.76
+      '@ai-sdk/provider-utils': 3.0.18(zod@4.1.13)
+      zod: 4.1.13
 
-  '@ai-sdk/provider-utils@3.0.18(zod@3.25.76)':
+  '@ai-sdk/provider-utils@3.0.18(zod@4.1.13)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
       '@standard-schema/spec': 1.0.0
       eventsource-parser: 3.0.6
-      zod: 3.25.76
+      zod: 4.1.13
 
   '@ai-sdk/provider@2.0.0':
     dependencies:
@@ -6950,13 +6953,13 @@ snapshots:
     dependencies:
       humanize-ms: 1.2.1
 
-  ai@5.0.106(zod@3.25.76):
+  ai@5.0.106(zod@4.1.13):
     dependencies:
-      '@ai-sdk/gateway': 2.0.18(zod@3.25.76)
+      '@ai-sdk/gateway': 2.0.18(zod@4.1.13)
       '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.18(zod@3.25.76)
+      '@ai-sdk/provider-utils': 3.0.18(zod@4.1.13)
       '@opentelemetry/api': 1.9.0
-      zod: 3.25.76
+      zod: 4.1.13
 
   ajv@6.12.6:
     dependencies:
@@ -9913,3 +9916,5 @@ snapshots:
   yocto-queue@1.2.2: {}
 
   zod@3.25.76: {}
+
+  zod@4.1.13: {}
